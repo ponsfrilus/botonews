@@ -5,8 +5,10 @@ import { fetchGoEpfl } from './FetchGoEpfl';
 const news = async (req: Request, res: Response, next: Next) => {
   let news: BotonewsItem[] = [];
   if (!req.query.src) {
-    let HackerNews: BotonewsItem[] = await fetchHackernews(req.query);
-    news = news.concat(HackerNews);
+    let hackerNews: BotonewsItem[] = await fetchHackernews(req.query);
+    let goEpfl: BotonewsItem[] = await fetchGoEpfl(req.query);
+
+    news = news.concat(hackerNews, goEpfl);
   } else {
     const channels = req.query.src.split(',');
     console.log(channels);
