@@ -9,7 +9,7 @@ export const fetchHackernews = async (options = {}) => {
   let articles = [];
 
   const { data } = await axios.get(
-    'https://hacker-news.firebaseio.com/v0/newstories.json?print=pretty'
+    'https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty'
   );
   for (let i = 0; i != opt.number; i++) {
     const articledetail = await axios.get(
