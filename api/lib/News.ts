@@ -1,6 +1,6 @@
-import { Next, Request, Response } from "restify";
-import { fetchHackernews } from "./FetchHackernews";
-import { fetchGoEpfl } from "./FetchGoEpfl";
+import { Next, Request, Response } from 'restify';
+import { fetchHackernews } from './FetchHackernews';
+import { fetchGoEpfl } from './FetchGoEpfl';
 
 const news = async (req: Request, res: Response, next: Next) => {
   console.log(req.query.src);
@@ -12,11 +12,11 @@ const news = async (req: Request, res: Response, next: Next) => {
     news = news.concat(HackerNews);
   }
 
-  if (req.query.src.includes("hackernews")) {
+  if (req.query.src.includes('hackernews')) {
     let hackerNews: any[] = await fetchHackernews(req.query);
     news = news.concat(hackerNews);
   }
-  if (req.query.src.includes("goepfl")) {
+  if (req.query.src.includes('goepfl')) {
     let goEpfl: any[] = await fetchGoEpfl(req.query);
     news = news.concat(goEpfl);
   }
