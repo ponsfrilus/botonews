@@ -1,4 +1,5 @@
 type BotonewsItem = {
+  src_channel: string;
   title: string;
   subtitle?: string;
   image_url: URL;

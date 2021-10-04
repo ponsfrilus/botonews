@@ -20,6 +20,7 @@ export const fetchHackernews = async (options = {}) => {
     d.setUTCSeconds(articledata.time);
 
     let article: BotonewsItem = {
+      src_channel: 'Hacker News',
       title: articledata.title,
       subtitle: ``,
       item_url: articledata.url,
