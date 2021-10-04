@@ -9,7 +9,7 @@ export const fetchGoEpfl = async (options = {}) => {
   let articles = [];
 
   const response = await axios.get(
-    'https://go.epfl.ch/api/v1/aliases?orderby=created_at&sort=desc&per_page=10'
+    `https://go.epfl.ch/api/v1/aliases?orderby=created_at&sort=desc&per_page=${opt.number}`
   );
   const respdata: any = response.data;
   const godata: any = respdata.data;
