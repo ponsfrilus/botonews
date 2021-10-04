@@ -1,5 +1,6 @@
+import home from "../lib/pages/Home";
 import respond from "../lib/Respond";
-import news from "../lib/News"
+import news from "../lib/News";
 export class ApiRoutes {
   server: any;
   constructor(server: any) {
@@ -7,6 +8,7 @@ export class ApiRoutes {
   }
 
   listen() {
+    this.server.get("/", home);
     this.server.get("/hello/:name", respond);
     this.server.head("/hello/:name", respond);
     this.server.get("/news", news)
