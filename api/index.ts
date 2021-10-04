@@ -3,6 +3,7 @@ const port = 8081;
 
 var restify = require("restify");
 var server = restify.createServer();
+server.use(restify.plugins.queryParser());
 
 var apiRoutes = new ApiRoutes(server);
 apiRoutes.listen();
