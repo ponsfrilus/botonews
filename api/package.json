@@ -29,6 +29,7 @@
   "homepage": "https://github.com/ponsfrilus/botonews#readme",
   "dependencies": {
     "@types/restify": "^8.5.2",
+    "axios": "^0.22.0",
     "restify": "^8.6.0"
   },
   "devDependencies": {
