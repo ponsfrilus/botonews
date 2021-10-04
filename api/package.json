@@ -1,0 +1,40 @@
+{
+  "name": "botonews-api",
+  "version": "0.0.1",
+  "description": "A simple news api",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --watch './**/*.ts' --exec ts-node --files index.ts",
+    "build": "npx tsc --outDir ../dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ponsfrilus/botonews.git"
+  },
+  "keywords": [
+    "news",
+    "api",
+    "bot",
+    "EPFL"
+  ],
+  "author": "IDEV-FSD",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ponsfrilus/botonews/issues"
+  },
+  "homepage": "https://github.com/ponsfrilus/botonews#readme",
+  "dependencies": {
+    "@types/restify": "^8.5.2",
+    "restify": "^8.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.10.2",
+    "nodemon": "^2.0.13",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
+  }
+}
