@@ -7,4 +7,5 @@ type BotonewsItem = {
   created_at: Date;
   author_name?: string;
   author_url?: URL;
+  extra?: any;
 };
