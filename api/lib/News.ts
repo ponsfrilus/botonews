@@ -2,6 +2,7 @@ import { Next, Request, Response } from 'restify';
 import { fetchHackernews } from './FetchHackernews';
 import { fetchGoEpfl } from './FetchGoEpfl';
 import { fetchActu } from './FetchActu';
+import { fetchTweets } from './FetchTweets';
 
 const news = async (req: Request, res: Response, next: Next) => {
   let news: BotonewsItem[] = [];
@@ -31,6 +32,16 @@ const news = async (req: Request, res: Response, next: Next) => {
       console.debug(' ↳ adding actu');
       let actus: BotonewsItem[] = await fetchActu(req.query);
       news = news.concat(actus);
+    }
+
+    if (channels.includes('php_ceo')) {
+      console.debug(' ↳ adding php_ceo tweets');
+      try {
+        let php_ceo: BotonewsItem[] = await fetchTweets({ username: 'php_ceo', ...req.query });
+        news = news.concat(php_ceo);
+      } catch (e) {
+        console.error(e);
+      }
     }
   }
   res.send(news);
