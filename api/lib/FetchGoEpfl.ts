@@ -17,10 +17,11 @@ export const fetchGoEpfl = async (options = {}) => {
   for (let i = 0; i != opt.number; i++) {
     let article: BotonewsItem = {
       src_channel: 'Go EPFL',
-      title: `https://go.epfl.ch/${godata[i].alias}`,
-      item_url: godata[i].url,
+      title: `Go/${godata[i].alias}`,
+      subtitle: `<a href="https://go.epfl.ch/${godata[i].alias}">https://go.epfl.ch/${godata[i].alias}</a> is a shortlink for <a href="https://go.epfl.ch/${godata[i].alias}">${godata[i].url}</a> that has already been clicked ${godata[i].clicks} time!`,
+      item_url: new URL(`https://go.epfl.ch/${godata[i].alias}`),
       image_url: new URL(`https://go.epfl.ch/logo/GoEPFL_large_red_white.jpg`),
-      image_alt: `Red go EPFL logo`,
+      image_alt: `Go EPFL logo red`,
       created_at: godata[i].created_at,
     };
     articles.push(article);
