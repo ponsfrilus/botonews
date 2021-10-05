@@ -14,8 +14,6 @@ export const fetchActu = async (options = {}) => {
   );
   const respdata: any = response.data;
 
-  console.log(respdata);
-
   for (let i = 0; i != opt.number; i++) {
     let article: BotonewsItem = {
       src_channel: 'Actu EPFL',
