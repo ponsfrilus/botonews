@@ -44,6 +44,7 @@ const news = async (req: Request, res: Response, next: Next) => {
       }
     }
   }
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.send(news);
   next();
 };
