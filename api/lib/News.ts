@@ -3,15 +3,17 @@ import { fetchHackernews } from './FetchHackernews';
 import { fetchGoEpfl } from './FetchGoEpfl';
 import { fetchActu } from './FetchActu';
 import { fetchTweets } from './FetchTweets';
+import { fetchMotivQuote } from './FetchMotivQuote';
 
 const news = async (req: Request, res: Response, next: Next) => {
-  let news: BotonewsItem[] = [];
+  let news: any = [];
   if (!req.query.src) {
     let hackerNews: BotonewsItem[] = await fetchHackernews(req.query);
     let goEpfl: BotonewsItem[] = await fetchGoEpfl(req.query);
     let actus: BotonewsItem[] = await fetchActu(req.query);
+    let motivquote: MotivQuoteItem[] = await fetchMotivQuote({number: req.query.number})
 
-    news = news.concat(hackerNews, goEpfl, actus);
+    news = news.concat(hackerNews, goEpfl, actus, motivquote);
   } else {
     const channels = req.query.src.split(',');
     console.log(channels);
@@ -32,6 +34,12 @@ const news = async (req: Request, res: Response, next: Next) => {
       console.debug(' ↳ adding actu');
       let actus: BotonewsItem[] = await fetchActu(req.query);
       news = news.concat(actus);
+    }
+
+    if(channels.includes('quote')) {
+      console.debug(' ↳ adding motivational quote')
+      let motivquote: MotivQuoteItem[] = await fetchMotivQuote({number: req.query.number})
+      news = news.concat(motivquote)
     }
 
     if (channels.includes('php_ceo')) {
