@@ -1,6 +1,6 @@
 import Parser from 'rss-parser';
 
-export const fetchTomHardware = async (options = {}) => {
+export const fetchLeTemps = async (options = {}) => {
   let defaultoptions = {
     number: 4, // Max is 50
   };
@@ -31,18 +31,18 @@ export const fetchTomHardware = async (options = {}) => {
 
   const parser: Parser<CustomFeed, CustomItem> = new Parser({});
 
-  const feed = await parser.parseURL('https://www.tomshardware.com/feeds/all');
+  const feed = await parser.parseURL('https://www.letemps.ch/feed');
 
   let articles = [];
 
   for (let i = 0; i != opt.number; i++) {
     let article: BotonewsItem = {
-      src_channel: 'TomsHardware',
+      src_channel: 'LeTemps',
       title: feed.items[i].title,
       subtitle: feed.items[i].content,
       item_url: new URL(feed.items[i].link),
       image_url: new URL(feed.items[i].enclosure.url),
-      image_alt: `TomsHardware image`,
+      image_alt: `Le Temps image`,
       created_at: feed.items[i].isoDate,
     };
     articles.push(article);

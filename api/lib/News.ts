@@ -5,6 +5,7 @@ import { fetchActu } from './FetchActu';
 import { fetchTweets } from './FetchTweets';
 import { fetchMotivQuote } from './FetchMotivQuote';
 import { fetchTomHardware } from './FetchTomHardware';
+import { fetchLeTemps } from './FetchLeTemps';
 
 const news = async (req: Request, res: Response, next: Next) => {
   let news: any = [];
@@ -14,8 +15,9 @@ const news = async (req: Request, res: Response, next: Next) => {
     let actus: BotonewsItem[] = await fetchActu(req.query);
     let motivquote: MotivQuoteItem[] = await fetchMotivQuote({number: req.query.number})
     let tomshardware: BotonewsItem[] = await fetchTomHardware(req.query)
+    let letemps: BotonewsItem[] = await fetchLeTemps(req.query)
 
-    news = news.concat(hackerNews, goEpfl, actus, motivquote, tomshardware);
+    news = news.concat(hackerNews, goEpfl, actus, motivquote, tomshardware, letemps);
   } else {
     const channels = req.query.src.split(',');
     console.log(channels);
@@ -48,6 +50,12 @@ const news = async (req: Request, res: Response, next: Next) => {
       console.debug(' ↳ adding TomHardware');
       let tomshardware: BotonewsItem[] = await fetchTomHardware(req.query);
       news = news.concat(tomshardware);
+    }
+
+    if(channels.includes('letemps')) {
+      console.debug(' ↳ adding LeTemps');
+      let letemps: BotonewsItem[] = await fetchLeTemps(req.query);
+      news = news.concat(letemps);
     }
 
     if (channels.includes('php_ceo')) {
