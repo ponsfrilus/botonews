@@ -169,6 +169,9 @@ $(document).ready(function () {
     cookies.includes("wallstreet")
       ? ($(".wsj")[0].checked = true)
       : ($(".wsj")[0].checked = false);
+    cookies.includes("newyorktimes")
+      ? ($(".nytimes")[0].checked = true)
+      : ($(".nytimes")[0].checked = false);
   }
 
   $(".random-button").click(async function () {
@@ -209,6 +212,7 @@ $(document).ready(function () {
     var tomstatus = $(".tom").is(":checked");
     var ltpsstatus = $(".ltps").is(":checked");
     var wsjstatus = $(".wsj").is(":checked");
+    var nytimesstatus = $(".nytimes").is(":checked");
 
     // var phpceostatus = $("#php_ceo").is(":checked");
     // var neckbeardstatus = $("#neckbeardhacker").is(":checked");
@@ -233,6 +237,9 @@ $(document).ready(function () {
     }
     if(wsjstatus) {
       $.cookie("wall_street_journal", "wallstreet")
+    }
+    if(nytimesstatus) {
+      $.cookie("new_york_times", "newyorktimes")
     }
     // if (phpceostatus) {
     //   data.push("php_ceo");
@@ -267,6 +274,9 @@ $(document).ready(function () {
     }
     if(!wsjstatus) {
       $.removeCookie("wall_street_journal", { path: cookiepath })
+    }
+    if(!nytimesstatus) {
+      $.removeCookie("new_york_times", { path: cookiepath })
     }
     let cookies = [];
 
