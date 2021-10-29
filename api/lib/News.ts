@@ -7,6 +7,7 @@ import { fetchMotivQuote } from './FetchMotivQuote';
 import { fetchTomHardware } from './FetchTomHardware';
 import { fetchLeTemps } from './FetchLeTemps';
 import { fetchWSJ } from './FetchWSJ';
+import { fetchNYtimes } from './FetchNYtimes';
 
 const news = async (req: Request, res: Response, next: Next) => {
   let news: any = [];
@@ -18,8 +19,9 @@ const news = async (req: Request, res: Response, next: Next) => {
     let tomshardware: BotonewsItem[] = await fetchTomHardware(req.query)
     let letemps: BotonewsItem[] = await fetchLeTemps(req.query)
     let wallstreetjournal: BotonewsItem[] = await fetchWSJ(req.query)
+    let newyorktimes: BotonewsItem[] = await fetchNYtimes(req.query)
 
-    news = news.concat(hackerNews, goEpfl, actus, motivquote, tomshardware, letemps, wallstreetjournal);
+    news = news.concat(hackerNews, goEpfl, actus, motivquote, tomshardware, letemps, wallstreetjournal, newyorktimes);
   } else {
     const channels = req.query.src.split(',');
     console.log(channels);
@@ -64,6 +66,12 @@ const news = async (req: Request, res: Response, next: Next) => {
       console.debug(' ↳ adding WallStreetJournal');
       let wallstreetjournal: BotonewsItem[] = await fetchWSJ(req.query);
       news = news.concat(wallstreetjournal);
+    }
+
+    if(channels.includes('newyorktimes')) {
+      console.debug(' ↳ adding NewYorkTimes');
+      let newyorktimes: BotonewsItem[] = await fetchNYtimes(req.query);
+      news = news.concat(newyorktimes);
     }
 
     if (channels.includes('php_ceo')) {
