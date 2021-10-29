@@ -166,6 +166,9 @@ $(document).ready(function () {
     cookies.includes("letemps")
       ? ($(".ltps")[0].checked = true)
       : ($(".ltps")[0].checked = false);
+    cookies.includes("wallstreet")
+      ? ($(".wsj")[0].checked = true)
+      : ($(".wsj")[0].checked = false);
   }
 
   $(".random-button").click(async function () {
@@ -205,6 +208,7 @@ $(document).ready(function () {
     var quotestatus = $(".quote").is(":checked");
     var tomstatus = $(".tom").is(":checked");
     var ltpsstatus = $(".ltps").is(":checked");
+    var wsjstatus = $(".wsj").is(":checked");
 
     // var phpceostatus = $("#php_ceo").is(":checked");
     // var neckbeardstatus = $("#neckbeardhacker").is(":checked");
@@ -226,6 +230,9 @@ $(document).ready(function () {
     }
     if (ltpsstatus) {
       $.cookie("le_temps", "letemps");
+    }
+    if(wsjstatus) {
+      $.cookie("wall_street_journal", "wallstreet")
     }
     // if (phpceostatus) {
     //   data.push("php_ceo");
@@ -257,6 +264,9 @@ $(document).ready(function () {
     }
     if (!ltpsstatus) {
       $.removeCookie("le_temps", { path: cookiepath });
+    }
+    if(!wsjstatus) {
+      $.removeCookie("wall_street_journal", { path: cookiepath })
     }
     let cookies = [];
 
