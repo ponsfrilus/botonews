@@ -5,12 +5,13 @@ services:
     user: "node"
     working_dir: /home/node/app
     volumes:
-      - ./api/:/home/node/app
+      - ./api/dist:/home/node/app
+      - ./api/node_modules:/home/node/app/node_modules
     expose:
       - "8081"
     ports:
       - "8081:8081"
-    command: "npm run vmdev"
+    command: "node index.js"
   web:
     image: "httpd:latest"
     volumes:
