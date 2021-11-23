@@ -19,3 +19,16 @@ services:
       - "80"
     ports:
       - "8082:80"
+  db:
+    image: mysql
+    container_name: db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: testdb
+      MYSQL_PASSWORD: testdb
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
