@@ -15,6 +15,6 @@ export class ApiRoutes {
     this.server.get('/news', news);
     this.server.get('/user', user);
     this.server.post('/user', user);
-    this.server.del('/user', user)
+    this.server.delete('/user', user)
   }
 }

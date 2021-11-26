@@ -19,7 +19,7 @@ const user = async (req: Request, res: Response, next: Next) => {
             "status_code": 400,\
             "error": "Please specify a username or an id."\
         }';
-      if (!req.query.username && !req.query.id) return res.send(400, JSON.parse(error));
+      if (!req.query.username && !req.query.id) return res.status(400) && res.send(JSON.parse(error));
 
       var where;
       var param;
@@ -49,7 +49,7 @@ const user = async (req: Request, res: Response, next: Next) => {
             "error": "Please specify a username and email."\
         }';
       if (!req.body || !req.body.username || !req.body.email) {
-        return res.send(400, JSON.parse(error));
+        return res.status(400) && res.send(JSON.parse(error));
       }
       let hashedEmail = hash(req.body.email);
       db.execute(
@@ -57,7 +57,8 @@ const user = async (req: Request, res: Response, next: Next) => {
         [req.body.username, req.body.email],
         async function (err, results, fields) {
           if (err) return res.send(err);
-          res.send(201, results);
+          res.status(201);
+          res.send(results);
           next();
         }
       );
@@ -68,7 +69,7 @@ const user = async (req: Request, res: Response, next: Next) => {
             "status_code": 400,\
             "error": "Please specify a username."\
         }';
-      if (!req.body.username) return res.send(400, JSON.parse(error));
+      if (!req.body.username) return res.status(400) && res.send(JSON.parse(error));
       db.execute(
         `DELETE FROM t_users WHERE username = ?`,
         [req.body.username],
