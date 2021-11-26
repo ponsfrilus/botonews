@@ -1,10 +1,19 @@
 import { ApiRoutes } from './routes/ApiRoutes';
 const port = 8081;
 
-const bodyParser = require("body-parser");
+import * as dotenv from 'dotenv';
+dotenv.config({ path: __dirname + '/.env' });
+
+const bodyParser = require('body-parser');
+const passport = require('passport');
 const express = require('express');
+const session = require('express-session');
 const app = express();
+app.use(session({ secret: process.env.session_secret }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(bodyParser.json())
+require("./auth")
 
 var apiRoutes = new ApiRoutes(app);
 apiRoutes.listen();

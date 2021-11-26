@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
 
 const home = (req: Request, res: Response) => {
-  res.end('<html><body><h3>Botonews</h3></body></html>');
+  res.end(`
+  <html><body><h3>Botonews</h3></body></html>
+  <a href="/auth/google">Authenticate with Google</a>`
+  );
 };
 
 export default home;
