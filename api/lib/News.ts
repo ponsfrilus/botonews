@@ -1,4 +1,4 @@
-import { Next, Request, Response } from 'restify';
+import { NextFunction, Request, Response } from 'express';
 import { fetchHackernews } from './FetchHackernews';
 import { fetchGoEpfl } from './FetchGoEpfl';
 import { fetchActu } from './FetchActu';
@@ -9,7 +9,7 @@ import { fetchLeTemps } from './FetchLeTemps';
 import { fetchWSJ } from './FetchWSJ';
 import { fetchNYtimes } from './FetchNYtimes';
 
-const news = async (req: Request, res: Response, next: Next) => {
+const news = async (req: Request, res: Response, next: NextFunction) => {
   let news: any = [];
   if (!req.query.src) {
     let hackerNews: BotonewsItem[] = await fetchHackernews(req.query);
@@ -23,7 +23,7 @@ const news = async (req: Request, res: Response, next: Next) => {
 
     news = news.concat(hackerNews, goEpfl, actus, motivquote, tomshardware, letemps, wallstreetjournal, newyorktimes);
   } else {
-    const channels = req.query.src.split(',');
+    const channels = (req.query.src as string).split(',');
     console.log(channels);
 
     if (channels.includes('hackernews')) {

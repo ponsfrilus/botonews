@@ -1,6 +1,6 @@
-import { Next, Request, Response } from 'restify';
+import { NextFunction, Request, Response } from 'express';
 
-const respond = (req: Request, res: Response, next: Next) => {
+const respond = (req: Request, res: Response, next: NextFunction) => {
   res.send('hello ' + req.params.name);
   next();
 };

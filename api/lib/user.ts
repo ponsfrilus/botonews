@@ -1,10 +1,10 @@
-import { Next, Request, Response } from 'restify';
+import { NextFunction, Request, Response } from 'express';
 import mysql from 'mysql2';
 import * as dotenv from 'dotenv';
 dotenv.config({ path: __dirname + '/.env' });
 var hash = require('blueimp-md5');
 
-const user = async (req: Request, res: Response, next: Next) => {
+const user = async (req: Request, res: Response, next: NextFunction) => {
   const db = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -26,7 +26,7 @@ const user = async (req: Request, res: Response, next: Next) => {
 
       if (req.query.id) {
         where = 'user';
-        param = parseInt(req.query.id);
+        param = parseInt(req.query.id as string);
       }
       if (req.query.username) {
         where = 'username';
