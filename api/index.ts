@@ -1,13 +1,14 @@
 import { ApiRoutes } from './routes/ApiRoutes';
 const port = 8081;
 
-var restify = require('restify');
-var server = restify.createServer();
-server.use(restify.plugins.queryParser());
+const bodyParser = require("body-parser");
+const express = require('express');
+const app = express();
+app.use(bodyParser.json())
 
-var apiRoutes = new ApiRoutes(server);
+var apiRoutes = new ApiRoutes(app);
 apiRoutes.listen();
 
-server.listen(port, function () {
-  console.log('%s listening at %s', server.name, server.url);
+app.listen(port, function () {
+  console.log('%s listening on port %d', app.name, port);
 });

@@ -1,0 +1,20 @@
+body {
+  margin-top: 10px;
+  margin-left: 50px;
+}
+.responsive {
+  width: 100%;
+  height: auto;
+}
+.background-darkmode {
+  background-color: rgb(20, 20, 20);
+}
+.background-lightmode {
+  background-color: rgb(255, 255, 255);
+}
+.text-darkmode {
+  color: black;
+}
+.text-lightmode {
+  color: white;
+}
