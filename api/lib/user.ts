@@ -1,17 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import mysql from 'mysql2';
-import * as dotenv from 'dotenv';
-dotenv.config({ path: __dirname + '/.env' });
-var hash = require('blueimp-md5');
-
+import { getUserByID, getUserByUsername, insertUser, deleteUser } from './DB';
 const user = async (req: Request, res: Response, next: NextFunction) => {
-  const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PWD,
-    database: process.env.DB_NAME,
-  });
-
   switch (req.method) {
     case 'GET':
       var error =
@@ -21,27 +10,19 @@ const user = async (req: Request, res: Response, next: NextFunction) => {
         }';
       if (!req.query.username && !req.query.id) return res.status(400) && res.send(JSON.parse(error));
 
-      var where;
       var param;
 
       if (req.query.id) {
-        where = 'user';
         param = parseInt(req.query.id as string);
+        var user:any = await getUserByID(param);
+        if (user.length == 0) return res.status(400) && res.send(JSON.parse(error));
       }
       if (req.query.username) {
-        where = 'username';
-        param = req.query.username;
+        var user:any = await getUserByUsername(req.query.username as string);
+        if (user.length == 0) return res.status(400) && res.send(JSON.parse(error));
       }
-      db.execute(
-        `SELECT * FROM t_users WHERE ${where} = ? LIMIT 1`,
-        [param],
-        async function (err, results, fields) {
-          if (err) return res.send(err);
-          res.send(results);
-          next();
-        }
-      );
-      break;
+      res.send(user);
+    break;
     case 'POST':
       var error =
         '{\
@@ -51,18 +32,10 @@ const user = async (req: Request, res: Response, next: NextFunction) => {
       if (!req.body || !req.body.username || !req.body.email) {
         return res.status(400) && res.send(JSON.parse(error));
       }
-      let hashedEmail = hash(req.body.email);
-      db.execute(
-        `INSERT INTO t_users VALUES (NULL, ? , ?, 'https://www.gravatar.com/avatar/${hashedEmail}?s=300&d=mp')`,
-        [req.body.username, req.body.email],
-        async function (err, results, fields) {
-          if (err) return res.send(err);
-          res.status(201);
-          res.send(results);
-          next();
-        }
-      );
-      break;
+      var insertedUser:any = await insertUser(req.body.username, req.body.email);
+      var success = `{"status_code" : 201, "message": "User ${req.body.username} has been created.", "affected_rows" : ${insertedUser.affectedRows}}`;
+      res.status(201) && res.send(JSON.parse(success));
+    break;
     case 'DELETE':
       var error =
         '{\
@@ -70,15 +43,10 @@ const user = async (req: Request, res: Response, next: NextFunction) => {
             "error": "Please specify a username."\
         }';
       if (!req.body.username) return res.status(400) && res.send(JSON.parse(error));
-      db.execute(
-        `DELETE FROM t_users WHERE username = ?`,
-        [req.body.username],
-        async function (err, results, fields) {
-          if (err) return res.send(err);
-          res.send(results);
-          next();
-        }
-      );
+      var deletedUser:any = await deleteUser(req.body.username);
+      var success = `{"status_code" : 200, "message": "User ${req.body.username} has been deleted.", "affected_rows" : ${deletedUser.affectedRows}}`;
+      res.send(JSON.parse(success))
+      
       break;
   }
 };

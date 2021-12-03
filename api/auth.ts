@@ -2,6 +2,7 @@ const passport = require('passport');
 import mysql from 'mysql2';
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
 import * as dotenv from 'dotenv';
+import { replaceUser } from './lib/DB';
 dotenv.config({ path: __dirname + '/.env' });
 
 const db = mysql.createConnection({
@@ -22,7 +23,7 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-passport.serializeUser(function(userProfile:any, done:any) {
+passport.serializeUser(async function(userProfile:any, done:any) {
     let user:any = {
         "google" : {}
     }
@@ -33,11 +34,13 @@ passport.serializeUser(function(userProfile:any, done:any) {
     user.google.email = userProfile.email
     user.google.id = userProfile.id
     user.google.language = userProfile.language
-    console.log("serialize", user)
+    user.google.provider = userProfile.provider
+    user.google.username = `boto_${userProfile.id}`
+
+    var replacedUser:any = await replaceUser(`boto_${userProfile.id}`, userProfile.email);
     done(null, user)
 });
 
 passport.deserializeUser(function(userProfile:any, done:any) {
-    console.log("deserialize", userProfile)
     done(null, userProfile)
 });
