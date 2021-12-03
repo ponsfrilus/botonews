@@ -6,7 +6,7 @@ import home from '../lib/pages/Home';
 import protected_page from '../lib/pages/protected_page';
 import respond from '../lib/Respond';
 import news from '../lib/News';
-import user from '../lib/user'
+import user from '../lib/User'
 export class ApiRoutes {
   server: any;
   constructor(server: any) {
