@@ -32,3 +32,11 @@ services:
       - ./db:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
+  pma:
+    image: phpmyadmin
+    container_name: pma
+    restart: unless-stopped
+    ports:
+      - 8088:80
+    links:
+      - db
