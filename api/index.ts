@@ -13,6 +13,7 @@ app.use(session({ secret: process.env.session_secret }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.json())
+app.use(express.static('public'));
 require("./auth")
 
 var apiRoutes = new ApiRoutes(app);

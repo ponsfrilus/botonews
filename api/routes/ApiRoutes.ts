@@ -1,9 +1,8 @@
 const passport = require("passport");
-function isLoggedIn(req:any, res:any, next:any) {
-  req.user ? next() : res.sendStatus(401);
-}
 import home from '../lib/pages/Home';
 import protected_page from '../lib/pages/protected_page';
+import isLoggedIn from '../lib/pages/isLoggedIn';
+import login from '../lib/pages/login';
 import respond from '../lib/Respond';
 import news from '../lib/News';
 import user from '../lib/User'
@@ -21,18 +20,33 @@ export class ApiRoutes {
     this.server.get('/user', user);
     this.server.post('/user', user);
     this.server.delete('/user', user);
-    this.server.get('/protected', isLoggedIn, protected_page)
+    this.server.get('/profile', isLoggedIn, protected_page)
+    this.server.get('/login', login)
     this.server.get('/auth/google',
       passport.authenticate('google', { scope: ['email', 'profile'] })
     )
     this.server.get('/google/callback',
       passport.authenticate('google', {
-        successRedirect: '/protected',
-        failureRedirect: '/auth/failure',
+        successRedirect: '/profile',
+        failureRedirect: '/profile',
+      })
+    )
+    this.server.get('/auth/github',
+    passport.authenticate('github', { scope: ['user:email'] })
+    )
+    this.server.get('/github/callback',
+    passport.authenticate('github', {
+      successRedirect: '/profile',
+      failureRedirect: '/profile',
+      scope: ['user:email']
       })
     )
     this.server.get('/auth/failure', (req:any, res:any) => {
       res.send('something went wrong..');
     })
+    this.server.get('/logout', function(req:any, res:any){
+      req.logout();
+      res.redirect('/');
+    });
   }
 }
