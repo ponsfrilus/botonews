@@ -6,6 +6,7 @@ import login from '../lib/pages/login';
 import respond from '../lib/Respond';
 import news from '../lib/News';
 import user from '../lib/User'
+import user_edit from '../lib/User_edit';
 export class ApiRoutes {
   server: any;
   constructor(server: any) {
@@ -19,6 +20,7 @@ export class ApiRoutes {
     this.server.get('/news', news);
     this.server.get('/user', user);
     this.server.post('/user', user);
+    this.server.post('/user/edit', user_edit);
     this.server.delete('/user', user);
     this.server.get('/profile', isLoggedIn, protected_page)
     this.server.get('/login', login)
