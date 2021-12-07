@@ -14,6 +14,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.json())
 app.use(express.static('public'));
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
 require("./auth")
 
 var apiRoutes = new ApiRoutes(app);

@@ -1,0 +1,14 @@
+<%- include('partials/header'); -%>
+
+    <p>This is protected page!!!!!</p>
+    <p><%= user.username %></p>
+    <p>Your email is : <%= user.email %></p>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">@</span>
+        </div>
+        <input type="text" class="form-control" placeholder=<%= user.username %> aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+
+<%- include('partials/footer'); -%>

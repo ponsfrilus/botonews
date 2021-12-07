@@ -1,6 +1,6 @@
 const passport = require("passport");
 import home from '../lib/pages/Home';
-import protected_page from '../lib/pages/protected_page';
+import profile from '../lib/pages/profile';
 import isLoggedIn from '../lib/pages/isLoggedIn';
 import login from '../lib/pages/login';
 import respond from '../lib/Respond';
@@ -22,7 +22,7 @@ export class ApiRoutes {
     this.server.post('/user', user);
     this.server.post('/user/edit', user_edit);
     this.server.delete('/user', user);
-    this.server.get('/profile', isLoggedIn, protected_page)
+    this.server.get('/profile', isLoggedIn, profile)
     this.server.get('/login', login)
     this.server.get('/auth/google',
       passport.authenticate('google', { scope: ['email', 'profile'] })
