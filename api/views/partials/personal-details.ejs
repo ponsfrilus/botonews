@@ -22,3 +22,25 @@
         </div>
     </div>
 </div>
+<script>
+    $(".update-button").click(function () {
+      let username;
+      if ($(".username-input").val() == "") {
+        username = "<%= user.username %>"
+      } else {
+        username = $(".username-input").val()
+      }
+      axios.post('http://127.0.0.1:8081/user/edit', {
+        username: username,
+        email: "<%= user.email %>"
+      })
+        .then(function (response) {
+          if (response.status == 201) {
+            $(".user-name").text(response.data.user.username)
+            $(".username").val("")
+            $(".username").attr("placeholder", response.data.user.username);
+            $("#alert").css("display", "block")
+          }
+        })
+    });
+</script>
