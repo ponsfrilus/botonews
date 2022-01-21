@@ -1,0 +1,38 @@
+<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row gutters">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h6 class="mb-3 underline">Linked accounts</h6>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+
+                <% if(user.provider=="github") { %>
+                    <a class="btn btn-light btn-md btn-block google" href="/auth/google" role="button"
+                    style="text-transform:none">
+                        <img style="margin-bottom:3px; margin-right:5px; width: 25px;" alt="Google sign-in"
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                        Link Google
+                    </a>
+                <% } else if(user.provider=="google") { %>
+                    <a class="btn btn-dark btn-md btn-block github" href="/auth/github" role="button"
+                        style="text-transform:none; background-color: #2d2e2e;">
+                        <img style="margin-bottom:3px; margin-right:5px; width: 25px;" alt="Github sign-in"
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/512px-Octicons-mark-github.svg.png" />
+                        Link GitHub
+                    </a>
+                <% } %>
+                </div>
+            </div>
+            <div class="row gutters">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="text-right">
+                        <button type="button" id="submit" name="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+</script>

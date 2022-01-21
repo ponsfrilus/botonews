@@ -22,15 +22,18 @@ export class ApiRoutes {
     this.server.post('/user', user);
     this.server.post('/user/edit', user_edit);
     this.server.delete('/user', user);
-    this.server.get('/profile', isLoggedIn, profile)
+    this.server.get('/profile/personal-details', isLoggedIn, profile);
+    this.server.get('/profile/botonews-settings', isLoggedIn, profile);
+    this.server.get('/profile/linked-accounts', isLoggedIn, profile);
+    this.server.get('/profile', isLoggedIn, profile);
     this.server.get('/login', login)
     this.server.get('/auth/google',
       passport.authenticate('google', { scope: ['email', 'profile'] })
     )
     this.server.get('/google/callback',
       passport.authenticate('google', {
-        successRedirect: '/profile',
-        failureRedirect: '/profile',
+        successRedirect: '/profile/personal-details',
+        failureRedirect: '/profile/personal-details',
       })
     )
     this.server.get('/auth/github',
@@ -38,8 +41,8 @@ export class ApiRoutes {
     )
     this.server.get('/github/callback',
     passport.authenticate('github', {
-      successRedirect: '/profile',
-      failureRedirect: '/profile',
+      successRedirect: '/profile/personal-details',
+      failureRedirect: '/profile/personal-details',
       scope: ['user:email']
       })
     )
