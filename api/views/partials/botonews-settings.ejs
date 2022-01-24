@@ -113,28 +113,16 @@
                         <h5>Supports</h5>
 
                         <div class="form-check">
-                            <input class="form-check-input supports" type="checkbox" value="" name="splashpage" id="splashpage">
-                            <label class="form-check-label" for="splashpage">
-                                SplashPage (Botonews main page)
-                            </label>
+                            <input class="form-check-input" type="radio" name="supports" id="splashpage" value="SplashPage" checked>SplashPage (Botonews main page)
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input supports" type="checkbox" value="" name="telegram" id="telegram">
-                            <label class="form-check-label" for="telegram">
-                                Telegram
-                            </label>
+                            <input class="form-check-input" type="radio" name="supports" id="telegram" value="Telegram">Telegram
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input supports" type="checkbox" value="" name="discord" id="discord">
-                            <label class="form-check-label" for="discord">
-                                Discord
-                            </label>
+                            <input class="form-check-input" type="radio" name="supports" id="discord" value="Discord">Discord
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input supports" type="checkbox" value="" name="mail" id="mail">
-                            <label class="form-check-label" for="mail">
-                                Mail
-                            </label>
+                            <input class="form-check-input" type="radio" name="supports" id="mail" value="Mail">Mail
                         </div>
                     </div>
                 </div>
@@ -160,17 +148,14 @@
 
         $(".update-button").click(function () {
             let sources = [];
-            let supports = [];
+            var support = $('input[type=radio][name=supports]:checked').attr('value');
 
             $('.sources:checked').each(function () {
                 sources.push($(this).attr('name'));
             });
-            $('.supports:checked').each(function () {
-                supports.push($(this).attr('name'));
-            });
+            console.log(support);
 
             console.log(sources)
-            console.log(supports)
             if($('input[type=radio][name=modes][value=Auto]').prop('checked') == true) {
                 // Subscription type auto
             }
