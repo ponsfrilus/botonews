@@ -36,13 +36,13 @@
                         </a>
 
                         <div class="form-check">
-                            <input class="form-check-input sources" type="checkbox" value="" name="go" id="go_epfl">
+                            <input class="form-check-input sources" type="checkbox" value="1" name="go" id="go_epfl">
                             <label class="form-check-label" for="go_epfl">
                                 GoEPFL
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input sources" type="checkbox" value="" name="actu" id="ActuEPFL">
+                            <input class="form-check-input sources" type="checkbox" value="2" name="actu" id="ActuEPFL">
                             <label class="form-check-label" for="ActuEPFL">
                                 Actu EPFL
                             </label>
@@ -113,16 +113,16 @@
                         <h5>Supports</h5>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="supports" id="splashpage" value="SplashPage" checked>SplashPage (Botonews main page)
+                            <input class="form-check-input" type="radio" name="supports" id="splashpage" value="4" checked>SplashPage (Botonews main page)
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="supports" id="telegram" value="Telegram">Telegram
+                            <input class="form-check-input" type="radio" name="supports" id="telegram" value="1">Telegram
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="supports" id="discord" value="Discord">Discord
+                            <input class="form-check-input" type="radio" name="supports" id="discord" value="2">Discord
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="supports" id="mail" value="Mail">Mail
+                            <input class="form-check-input" type="radio" name="supports" id="mail" value="3">Mail
                         </div>
                     </div>
                 </div>
@@ -139,6 +139,7 @@
     </div>
     <script>
 
+        // Auto mode checked by default on page load / reload
         $(function() {
             var $autoradio = $('input[type=radio][name=modes][value=Auto]');
             $autoradio.prop('checked', true);
@@ -150,14 +151,22 @@
             let sources = [];
             var support = $('input[type=radio][name=supports]:checked').attr('value');
 
+            // Fetching all the checked sources and putting them in an array
             $('.sources:checked').each(function () {
-                sources.push($(this).attr('name'));
+                sources.push($(this).attr('value'));
             });
-            console.log(support);
 
-            console.log(sources)
             if($('input[type=radio][name=modes][value=Auto]').prop('checked') == true) {
-                // Subscription type auto
+                axios.post('http://127.0.0.1:8081/subscriptions', {
+                userId: "<%= user.userid %>",
+                source: sources,
+                support: support
+                })
+                .then(function (response) {
+                    if (response.status == 201) {
+
+                    }
+                })
             }
             else if($('input[type=radio][name=modes][value=Advanced]').prop('checked') == true) {
                 // Subscription type advanced
@@ -165,12 +174,27 @@
                 $('.days:checked').each(function () {
                     days.push($(this).attr('name'));
                 });
-                console.log(days)
                 var time = $('#news-time').val();
-                console.log(time)
+
+                let modalities = {}
+                modalities.days = days
+                modalities.time = time
+
+                axios.post('http://127.0.0.1:8081/subscriptions', {
+                userId: "<%= user.userid %>",
+                source: sources,
+                support: support,
+                modalities: modalities
+                })
+                .then(function (response) {
+                    if (response.status == 201) {
+
+                    }
+                })
             }
         });
 
+        // Showing or not showing Advanced mode
         $('input[type=radio][name=modes]').change(function() {
             if (this.value == 'Auto') {
                 $('.days').css('display', 'none')

@@ -7,6 +7,7 @@ import respond from '../lib/Respond';
 import news from '../lib/News';
 import user from '../lib/User'
 import user_edit from '../lib/User_edit';
+import subscriptions from '../lib/subscriptions';
 export class ApiRoutes {
   server: any;
   constructor(server: any) {
@@ -26,6 +27,13 @@ export class ApiRoutes {
     this.server.get('/profile/botonews-settings', isLoggedIn, profile);
     this.server.get('/profile/linked-accounts', isLoggedIn, profile);
     this.server.get('/profile', isLoggedIn, profile);
+    // Subscriptions
+    this.server.get('/subscriptions/:id_subscription', subscriptions);
+    this.server.get('/subscriptions', subscriptions);
+    this.server.post('/subscriptions', subscriptions);
+    this.server.delete('/subscriptions/:id_subscription', subscriptions);
+    this.server.put('/subscriptions/:id_subscription', subscriptions);
+
     this.server.get('/login', login)
     this.server.get('/auth/google',
       passport.authenticate('google', { scope: ['email', 'profile'] })

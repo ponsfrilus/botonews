@@ -4,7 +4,7 @@ var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var GitHubStrategy = require('passport-github2').Strategy;
 
 import * as dotenv from 'dotenv';
-import { replaceUser } from './lib/DB';
+import { replaceUser, getUserByEmail } from './lib/DB';
 dotenv.config({ path: __dirname + '/.env' });
 
 async function registerUser(userProfile:any, email:any) {
@@ -27,6 +27,12 @@ async function registerUser(userProfile:any, email:any) {
     user.provider.id = userProfile.id
     user.provider.language = userProfile.language
     user.provider.provider = userProfile.provider
+
+    var fetchedUser:any = await getUserByEmail(email)
+    if(fetchedUser.length) {
+      user.provider.username = fetchedUser[0].username
+      user.provider.userid = fetchedUser[0].user
+    }
 
     var replacedUser:any = await replaceUser(user.provider.username, email);
     return user;
