@@ -9,14 +9,14 @@ const subscriptions = async (req: Request, res: Response, next: NextFunction) =>
                 "error": "Please specify a user id (you can also specify a subscription id)"\
             }';
             // if (!req.body.userId) return res.status(400) && res.send(JSON.parse(error));
-            if(req.params.id_subscription) {
+            if(req.path.includes('/subscriptions/user/')) {
+                var fetchedSubscriptions:any = await getAllSubscriptions(req.params.user);
+                res.send(fetchedSubscriptions);
+            } else {
                 var subscriptionId;
                 subscriptionId = String(req.params.id_subscription);
                 var fetchedSubscription:any = await getSubscription(subscriptionId);
                 res.send(fetchedSubscription);
-            } else if(req.body.userId) {
-                var fetchedSubscriptions:any = await getAllSubscriptions(req.body.userId);
-                res.send(fetchedSubscriptions);
             }
 
         break;

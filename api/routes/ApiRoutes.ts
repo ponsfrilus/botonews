@@ -29,7 +29,7 @@ export class ApiRoutes {
     this.server.get('/profile', isLoggedIn, profile);
     // Subscriptions
     this.server.get('/subscriptions/:id_subscription', subscriptions);
-    this.server.get('/subscriptions', subscriptions);
+    this.server.get('/subscriptions/user/:user', subscriptions);
     this.server.post('/subscriptions', subscriptions);
     this.server.delete('/subscriptions/:id_subscription', subscriptions);
     this.server.put('/subscriptions/:id_subscription', subscriptions);
