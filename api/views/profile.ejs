@@ -32,6 +32,7 @@
                 <h5 class="mb-2 underline">Other settings</h5>
                 <a href="/profile/personal-details">Personal details</a><br>
                 <a href="/profile/botonews-settings">Botonews settings</a><br>
+                <a href="/profile/my-subscriptions">My subscriptions</a><br>
                 <a href="/profile/linked-accounts">Linked accounts</a><br><br>
                 <a href="/logout">Logout</a>
               </div>
@@ -41,10 +42,12 @@
       </div>
       <% if(path=='/profile/personal-details' || path=='/profile' || path=='/profile/') { %>
         <%- include('partials/personal-details'); -%>
-      <% } else if(path=='/profile/botonews-settings') { %>
+      <% } else if(path.includes('/profile/botonews-settings')) { %>
         <%- include('partials/botonews-settings'); -%>
       <% } else if(path=='/profile/linked-accounts') { %>
         <%- include('partials/linked-accounts'); -%>
+      <% } else if(path=='/profile/my-subscriptions') { %>
+        <%- include('partials/my-subscriptions'); -%>
       <% } %>
     </div>
   </div>

@@ -1,0 +1,55 @@
+<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row gutters">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h6 class="mb-3 underline">My subscriptions</h6>
+                    <form id="subscriptions-form" action="/subscriptions/">
+                    <table class="table table-sm table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Support</th>
+                            <th scope="col">Source(s)</th>
+                            <th scope="col">Modalities</th>
+                            <th scope="col">✎</th>
+                            <th scope="col">⤫</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% if(typeof subscriptions !== "undefined"){ %>
+                            <% for(var i=0; i < subscriptions.subscriptions.length; i++) { %>
+                              <tr data-value=<%= subscriptions.subscriptions[i].subscription%>>
+                                <td><%= subscriptions.subscriptions[i].subscription %></td>
+                                <td><%= subscriptions.subscriptions[i].support.title %></td>
+                                <td><%= subscriptions.subscriptions[i].sources.map((el) => { return el.title }).join(", ") %> <!-- TODO: another loop --></td>
+                                <td><%if (subscriptions.subscriptions[i].modalities?.time) {%>  At <%= subscriptions.subscriptions[i].modalities?.time %> on <%= subscriptions.subscriptions[i]?.modalities?.days?.join(", ") %>  <%} else {%> When it comes out <%}%> 
+                                <td><a class="btn btn-primary" href="/profile/botonews-settings/<%=subscriptions.subscriptions[i].subscription%>">Edit</a></td>
+                                <td><button type="button" value="<%= subscriptions.subscriptions[i].subscription %>" class="btn btn-danger delete-button">Delete</button></td>
+                              </tr>
+                           <% } %>
+                          <% } else { %>  
+                            <h1>None, <a href="/profile/botonews-settings">create one here</a></h1>
+                          <% } %>
+                        </tbody>
+                      </table>
+                      </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+  $( ".delete-button" ).click(function() {
+    var subscriptionId = $(this).attr("value");
+    axios.delete(`http://127.0.0.1:8081/subscriptions/${subscriptionId}`, {
+
+    })
+        .then(async function (response) {
+            if (response.status == 200) {
+              $(`tr[data-value=${subscriptionId}]`).remove();
+              $(".alert-success").removeAttr("style");
+            }
+        })
+  });
+</script>

@@ -100,6 +100,10 @@ export const getAllSubscriptions = async (userId:string) => {
         `, [userId]);
 
     var rowscommon:any = rows
+    console.log(rowscommon)
+    if(rowscommon.length == 0) {
+        return rowscommon
+    }
 
     var subscriptions:any = [];
     rowscommon.forEach((e:any, i:any) => {
@@ -136,7 +140,6 @@ export const getAllSubscriptions = async (userId:string) => {
         "subscriptions": subscriptions
         
     };
-    console.log(JSON.stringify(response, null, 2))
 
     return response;
 }
@@ -150,4 +153,10 @@ export const insertSubscription = async (userId:string, support:string, modaliti
 export const insertSubscriptionSources = async (subscriptionId:number, source:string) => {
     const [rows, fields] = await (await dbconnect).query(`INSERT INTO t_subscription_sources (subscription, source) VALUES (?, ?); `, [subscriptionId, source]);
     return rows;
+}
+
+export const deleteSubscription = async (subscriptionId:number) => {
+    const [rows, fields] = await (await dbconnect).query(`DELETE FROM t_subscription_sources WHERE subscription = ?;`, [subscriptionId]);
+    const [rows2, fields2] = await (await dbconnect).query(`DELETE FROM t_subscriptions WHERE subscription = ?;`, [subscriptionId]);
+    return rows2;
 }

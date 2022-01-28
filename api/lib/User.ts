@@ -21,7 +21,7 @@ const user = async (req: Request, res: Response, next: NextFunction) => {
         var user:any = await getUserByUsername(req.query.username as string);
         if (user.length == 0) return res.status(400) && res.send(JSON.parse(error));
       }
-      res.send(user);
+      res.status(201) && res.send(user[0]);
     break;
     case 'POST':
       var error =

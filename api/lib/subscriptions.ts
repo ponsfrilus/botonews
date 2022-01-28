@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { getSubscription, getAllSubscriptions, insertSubscription, insertSubscriptionSources } from './DB';
+import { getSubscription, getAllSubscriptions, insertSubscription, insertSubscriptionSources, deleteSubscription } from './DB';
 const subscriptions = async (req: Request, res: Response, next: NextFunction) => {
     switch (req.method) {
         case "GET":
@@ -33,7 +33,20 @@ const subscriptions = async (req: Request, res: Response, next: NextFunction) =>
             req.body.source.forEach(async (element: any) => {
                 var insertedSubscriptionSources:any = await insertSubscriptionSources(insertedSubscription.insertId, element)
             });
-            res.send(insertedSubscription);
+            res.status(201) && res.send(insertedSubscription);
+        break;
+
+        case "DELETE":
+            var error =
+            '{\
+                "status_code": 400,\
+                "error": "Please specify a subscription id."\
+            }';
+            if(!req.params.id_subscription) return res.status(400) && res.send(JSON.parse(error))
+            var subscriptionId;
+            subscriptionId = parseInt(req.params.id_subscription);
+            var deletedSubscription:any = await deleteSubscription(subscriptionId)
+            res.send(deletedSubscription);
         break;
     };
 }

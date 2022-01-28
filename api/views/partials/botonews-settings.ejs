@@ -1,12 +1,3 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"
-    integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css"
-    integrity="sha512-3q8fi8M0VS+X/3n64Ndpp6Bit7oXSiyCnzmlx6IDBLGlY5euFySyJ46RUlqIVs0DPCGOypqP8IRk/EyPvU28mQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pickerjs@1.2.1/src/css/picker.css">
 <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
     <div class="card h-100">
         <div class="card-body">
@@ -16,14 +7,16 @@
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 
+                    <form action="" name="form-settings">
+
                     <div class="modes">
                         <h3>Modes</h3>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="modes" id="auto-mode" value="Auto" checked>Auto
+                            <input class="form-check-input" type="radio" name="modes" id="auto-mode" value="Auto" <%- subscription?.modalities?.hasOwnProperty('time') ? '' : 'checked=checked' %>>Auto
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="modes" id="advanced-mode" value="Advanced">Advanced
+                            <input class="form-check-input" type="radio" name="modes" id="advanced-mode" value="Advanced" <%- subscription?.modalities?.hasOwnProperty('time') ? 'checked=checked' : '' %>>Advanced
                         </div>
                         <br><br>
                     </div>
@@ -36,13 +29,13 @@
                         </a>
 
                         <div class="form-check">
-                            <input class="form-check-input sources" type="checkbox" value="1" name="go" id="go_epfl">
+                            <input class="form-check-input sources" type="checkbox" value="1" name="go" id="go_epfl" <%- subscription?.sources?.filter(el => el.title === "Go").length ? 'checked=checked' : ''%>>
                             <label class="form-check-label" for="go_epfl">
                                 GoEPFL
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input sources" type="checkbox" value="2" name="actu" id="ActuEPFL">
+                            <input class="form-check-input sources" type="checkbox" value="2" name="actu" id="ActuEPFL" <%- subscription?.sources?.filter(el => el.title === "Actu").length ? 'checked=checked' : ''%>>
                             <label class="form-check-label" for="ActuEPFL">
                                 Actu EPFL
                             </label>
@@ -134,16 +127,17 @@
                         </div>
                     </div>
                 </div>
+            </form>
             </div>
         </div>
     </div>
     <script>
 
-        // Auto mode checked by default on page load / reload
-        $(function() {
-            var $autoradio = $('input[type=radio][name=modes][value=Auto]');
-            $autoradio.prop('checked', true);
-        });
+        // // Auto mode checked by default on page load / reload
+        // // $(function() {
+        // //     var $autoradio = $('input[type=radio][name=modes][value=Auto]');
+        // //     $autoradio.prop('checked', true);
+        // // });
 
         $("a.my-tool-tip").tooltip();
 
@@ -164,7 +158,7 @@
                 })
                 .then(function (response) {
                     if (response.status == 201) {
-
+                        $(".alert-success").removeAttr("style");
                     }
                 })
             }
@@ -188,7 +182,7 @@
                 })
                 .then(function (response) {
                     if (response.status == 201) {
-
+                        $(".alert-success").removeAttr("style");
                     }
                 })
             }
@@ -208,4 +202,32 @@
 
 
 
+        // var tooltip = $('<div id="tooltip" />')
+        //     .css({
+        //         position: "absolute",
+        //         top: -25,
+        //         left: -10,
+        //     })
+        //     .hide();
+        // $("#slider")
+        //     .slider({
+        //         value: 5,
+        //         min: 1,
+        //         max: 20,
+        //         step: 1,
+        //         slide: function (event, ui) {
+        //             tooltip.text(ui.value);
+        //         },
+        //         change: function (event, ui) { },
+        //     })
+        //     .find(".ui-slider-handle")
+        //     .append(tooltip)
+        //     .hover(
+        //         function () {
+        //             tooltip.show();
+        //         },
+        //         function () {
+        //             tooltip.hide();
+        //         }
+        //     );
     </script>
