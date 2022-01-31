@@ -1,9 +1,15 @@
 version: "3.7"
 services:
-  node:
+  api:
     image: "node:17"
     user: "node"
+    container_name: botonews-api
     working_dir: /home/node/app
+    links:
+      - "db"
+    env_file:
+      - .env-db
+      - .env-auth
     volumes:
       - ./api/:/home/node/app
     expose:
@@ -11,7 +17,8 @@ services:
     ports:
       - "8081:8081"
     command: "npm run vmdev"
-  web:
+  frontend:
+    container_name: botonews-frontend
     image: "httpd:latest"
     volumes:
       - "./public-frontend:/usr/local/apache2/htdocs/"
@@ -21,20 +28,15 @@ services:
       - "8082:80"
   db:
     image: mysql
-    container_name: db
+    container_name: botonews-db
     restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: testdb
-      MYSQL_USER: testdb
-      MYSQL_PASSWORD: testdb
+    env_file:
+      - .env-db
     volumes:
       - ./db:/docker-entrypoint-initdb.d
-    ports:
-      - "3306:3306"
   pma:
     image: phpmyadmin
-    container_name: pma
+    container_name: botonews-phpmyadmin
     restart: unless-stopped
     ports:
       - 8088:80

@@ -3,9 +3,7 @@ import mysql from 'mysql2';
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var GitHubStrategy = require('passport-github2').Strategy;
 
-import * as dotenv from 'dotenv';
 import { replaceUser, getUserByEmail } from './lib/DB';
-dotenv.config({ path: __dirname + '/.env' });
 
 async function registerUser(userProfile:any, email:any) {
     let user:any = {
@@ -39,10 +37,10 @@ async function registerUser(userProfile:any, email:any) {
 }
 
 const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PWD,
-    database: process.env.DB_NAME,
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
   });
 
 passport.use(new GitHubStrategy({

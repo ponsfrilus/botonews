@@ -1,8 +1,6 @@
 import { ApiRoutes } from './routes/ApiRoutes';
 const port = 8081;
 
-import * as dotenv from 'dotenv';
-dotenv.config({ path: __dirname + '/.env' });
 
 const bodyParser = require('body-parser');
 const passport = require('passport');
