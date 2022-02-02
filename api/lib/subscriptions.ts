@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { getSubscription, getAllSubscriptions, insertSubscription, insertSubscriptionSources, deleteSubscription } from './DB';
+import { getSubscription, getAllSubscriptions, insertSubscription, insertSubscriptionSources, deleteSubscription, updateSubscription } from './DB';
 const subscriptions = async (req: Request, res: Response, next: NextFunction) => {
     switch (req.method) {
         case "GET":
@@ -13,8 +13,7 @@ const subscriptions = async (req: Request, res: Response, next: NextFunction) =>
                 var fetchedSubscriptions:any = await getAllSubscriptions(req.params.user);
                 res.send(fetchedSubscriptions);
             } else {
-                var subscriptionId;
-                subscriptionId = String(req.params.id_subscription);
+                var subscriptionId = parseInt(req.params.id_subscription);
                 var fetchedSubscription:any = await getSubscription(subscriptionId);
                 res.send(fetchedSubscription);
             }
@@ -43,10 +42,22 @@ const subscriptions = async (req: Request, res: Response, next: NextFunction) =>
                 "error": "Please specify a subscription id."\
             }';
             if(!req.params.id_subscription) return res.status(400) && res.send(JSON.parse(error))
-            var subscriptionId;
-            subscriptionId = parseInt(req.params.id_subscription);
+            var subscriptionId:number = parseInt(req.params.id_subscription);
             var deletedSubscription:any = await deleteSubscription(subscriptionId)
             res.send(deletedSubscription);
+        break;
+
+        case "PUT":
+            var error =
+            '{\
+                "status_code": 400,\
+                "error": "Please specify a user id, subscription id, source(s) and a support"\
+            }';
+            if (!req.body.userId || !req.params.id_subscription || !req.body.source || !req.body.support) return res.status(400) && res.send(JSON.parse(error));
+            var modalities = req.body.modalities || {};
+            var subscriptionId:number = parseInt(req.params.id_subscription);
+            var fetchedUpdateSubscription:any = await updateSubscription(subscriptionId, req.body.userId, req.body.support, modalities, req.body.source)
+            res.status(201) && res.send(fetchedUpdateSubscription)
         break;
     };
 }

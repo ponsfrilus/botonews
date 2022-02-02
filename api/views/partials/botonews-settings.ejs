@@ -43,58 +43,58 @@
                         <br>
                     </div>
 
-                    <div class="time" style="display: none;">
+                    <div class="time" <%- subscription?.modalities?.hasOwnProperty('time') ? '' : 'style="display: none"' %>>
                         <h5 style="display: inline;">Time</h5>
                         <a class='my-tool-tip' data-toggle="tooltip" data-placement="right" title="Time is the time that you want to receive the news.">
                             <i class="bi bi-info-circle" style="display: inline;"></i>
                         </a>
-                        <input id="news-time" type="time" name="news-time" value="13:30" style="display: block;">
+                        <input id="news-time" type="time" name="news-time" value="<%- subscription?.modalities?.hasOwnProperty('time') ? subscription?.modalities?.time : '' %>" style="display: block;">
                         <br><br>
                     </div>
 
 
 
-                    <div class="days" style="display: none;">
+                    <div class="days" <%- subscription?.modalities?.hasOwnProperty('days') ? '' : 'style="display: none"' %>>
                         <h5>Days</h5>
 
                         <div class="form-check">
-                            <input class="form-check-input days" type="checkbox" value="" name="monday" id="monday">
+                            <input class="form-check-input days" type="checkbox" value="" name="monday" id="monday" <%- subscription?.modalities?.days?.includes("monday") ? 'checked=checked' : ''%>>
                             <label class="form-check-label" for="monday">
                                 Monday
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input days" type="checkbox" value="" name="tuesday" id="tuesday">
+                            <input class="form-check-input days" type="checkbox" value="" name="tuesday" id="tuesday" <%- subscription?.modalities?.days?.includes("tuesday") ? 'checked=checked' : ''%>>
                             <label class="form-check-label" for="tuesday">
                                 Tuesday
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input days" type="checkbox" value="" name="wednesday" id="wednesday">
+                            <input class="form-check-input days" type="checkbox" value="" name="wednesday" id="wednesday" <%- subscription?.modalities?.days?.includes("wednesday") ? 'checked=checked' : ''%>>
                             <label class="form-check-label" for="wednesday">
                                 Wednesday
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input days" type="checkbox" value="" name="Thursday" id="Thursday">
+                            <input class="form-check-input days" type="checkbox" value="" name="Thursday" id="Thursday" <%- subscription?.modalities?.days?.includes("thursday") ? 'checked=checked' : ''%>>
                             <label class="form-check-label" for="Thursday">
                                 Thursday
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input days" type="checkbox" value="" name="friday" id="friday">
+                            <input class="form-check-input days" type="checkbox" value="" name="friday" id="friday" <%- subscription?.modalities?.days?.includes("friday") ? 'checked=checked' : ''%>>
                             <label class="form-check-label" for="friday">
                                 Friday
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input days" type="checkbox" value="" name="saturday" id="saturday">
+                            <input class="form-check-input days" type="checkbox" value="" name="saturday" id="saturday" <%- subscription?.modalities?.days?.includes("saturday") ? 'checked=checked' : ''%>>
                             <label class="form-check-label" for="saturday">
                                 Saturday
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input days" type="checkbox" value="" name="sunday" id="sunday">
+                            <input class="form-check-input days" type="checkbox" value="" name="sunday" id="sunday" <%- subscription?.modalities?.days?.includes("sunday") ? 'checked=checked' : ''%>>
                             <label class="form-check-label" for="sunday">
                                 Sunday
                             </label>
@@ -106,16 +106,16 @@
                         <h5>Supports</h5>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="supports" id="splashpage" value="4" checked>SplashPage (Botonews main page)
+                            <input class="form-check-input" type="radio" name="supports" id="splashpage" value="4" <%- subscription?.support?.title == "SplashPage"  ? 'checked=checked' : ''%>>SplashPage (Botonews main page)
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="supports" id="telegram" value="1">Telegram
+                            <input class="form-check-input" type="radio" name="supports" id="telegram" value="1" <%- subscription?.support?.title == "Telegram"  ? 'checked=checked' : ''%>>Telegram
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="supports" id="discord" value="2">Discord
+                            <input class="form-check-input" type="radio" name="supports" id="discord" value="2" <%- subscription?.support?.title == "Discord"  ? 'checked=checked' : ''%>>Discord
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="supports" id="mail" value="3">Mail
+                            <input class="form-check-input" type="radio" name="supports" id="mail" value="3" <%- subscription?.support?.title == "Mail"  ? 'checked=checked' : ''%>>Mail
                         </div>
                     </div>
                 </div>
@@ -123,7 +123,7 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="text-right">
                             <button type="button" id="submit" name="submit"
-                                class="btn btn-primary update-button">Create a new subscription</button>
+                                class="btn btn-primary update-button"><%- subscription?.subscription ? 'Save' : 'Create a new subscription' %></button>
                         </div>
                     </div>
                 </div>
@@ -151,16 +151,31 @@
             });
 
             if($('input[type=radio][name=modes][value=Auto]').prop('checked') == true) {
-                axios.post('http://127.0.0.1:8081/subscriptions', {
-                userId: "<%= user.userid %>",
-                source: sources,
-                support: support
-                })
-                .then(function (response) {
-                    if (response.status == 201) {
-                        $(".alert-success").removeAttr("style");
-                    }
-                })
+                if("<%= subscription?.subscription %>") {
+                    // Si la personne vient de cliquer pour éditer une subscription déjà existante
+                    axios.put('http://127.0.0.1:8081/subscriptions/<%= subscription?.subscription %>', {
+                        userId: "<%= user.userid %>",
+                        source: sources,
+                        support: support
+                    })
+                    .then(function (response) {
+                        if (response.status == 201) {
+                            $(".alert-success").removeAttr("style");
+                        }
+                    })
+                } else {
+                    // SI la personne est entrain de créer une nouvelle subscription
+                    axios.post('http://127.0.0.1:8081/subscriptions', {
+                        userId: "<%= user.userid %>",
+                        source: sources,
+                        support: support
+                    })
+                    .then(function (response) {
+                        if (response.status == 201) {
+                            $(".alert-success").removeAttr("style");
+                        }
+                    })
+                }
             }
             else if($('input[type=radio][name=modes][value=Advanced]').prop('checked') == true) {
                 // Subscription type advanced
@@ -174,17 +189,33 @@
                 modalities.days = days
                 modalities.time = time
 
-                axios.post('http://127.0.0.1:8081/subscriptions', {
-                userId: "<%= user.userid %>",
-                source: sources,
-                support: support,
-                modalities: modalities
-                })
-                .then(function (response) {
-                    if (response.status == 201) {
-                        $(".alert-success").removeAttr("style");
-                    }
-                })
+                if("<%= subscription?.subscription %>") {
+                    axios.put('http://127.0.0.1:8081/subscriptions/<%= subscription?.subscription %>', {
+                        userId: "<%= user.userid %>",
+                        source: sources,
+                        support: support,
+                        modalities: modalities
+                    })
+                    .then(function (response) {
+                        if (response.status == 201) {
+                            $(".alert-success").removeAttr("style");
+                        }
+                    })
+                } else {
+                    axios.post('http://127.0.0.1:8081/subscriptions', {
+                        userId: "<%= user.userid %>",
+                        source: sources,
+                        support: support,
+                        modalities: modalities
+                    })
+                    .then(function (response) {
+                        if (response.status == 201) {
+                            $(".alert-success").removeAttr("style");
+                        }
+                    })
+                }
+
+
             }
         });
 

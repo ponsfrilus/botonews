@@ -215,6 +215,12 @@ ALTER TABLE `t_users`
   MODIFY `user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `t_subscriptions`
+--
+ALTER TABLE `t_subscriptions`
+  MODIFY `subscription` int NOT NULL AUTO_INCREMENT;
+
+--
 -- Constraints for dumped tables
 --
 

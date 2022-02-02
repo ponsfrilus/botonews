@@ -34,6 +34,7 @@ services:
       - .env-db
     volumes:
       - ./db:/docker-entrypoint-initdb.d
+      - ./db/data:/var/lib/mysql
   pma:
     image: phpmyadmin
     container_name: botonews-phpmyadmin

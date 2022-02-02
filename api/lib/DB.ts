@@ -48,7 +48,7 @@ export const deleteUser = async (username:string) => {
 }
 
 // Subscriptions
-export const getSubscription = async (subscriptionId:string) => {
+export const getSubscription = async (subscriptionId:number) => {
     const [rows, fields] = await (await dbconnect).query(`
             SELECT sub.subscription, usr.*, sub.modalities, sup.title AS support_title, sup.support, src.title AS source_title, src.source 
                 FROM t_subscriptions sub
@@ -144,7 +144,7 @@ export const getAllSubscriptions = async (userId:string) => {
 
 export const insertSubscription = async (userId:string, support:string, modalities:JSON) => {
     let modalitiesTx = JSON.stringify(modalities)
-    const [rows, fields] = await (await dbconnect).query(`INSERT INTO t_subscriptions (subscription, user, support, modalities) VALUES (NULL, ?, ?, ?); `, [userId, support, modalitiesTx]);
+    const [rows, fields] = await (await dbconnect).query(`INSERT INTO t_subscriptions (user, support, modalities) VALUES (?, ?, ?); `, [userId, support, modalitiesTx]);
     return rows;
 }
 
@@ -157,4 +157,39 @@ export const deleteSubscription = async (subscriptionId:number) => {
     const [rows, fields] = await (await dbconnect).query(`DELETE FROM t_subscription_sources WHERE subscription = ?;`, [subscriptionId]);
     const [rows2, fields2] = await (await dbconnect).query(`DELETE FROM t_subscriptions WHERE subscription = ?;`, [subscriptionId]);
     return rows2;
+}
+
+export const updateSubscription = async (subscriptionId:number, userId:string, support:string, modalities:JSON, subscriptionSource:any) => {
+    let modalitiesTx = JSON.stringify(modalities)
+    const [rows, fields] = await (await dbconnect).query(`UPDATE t_subscriptions
+    SET user = ?, support = ?, modalities = ?
+    WHERE subscription = ? ;`, [userId, support, modalitiesTx, subscriptionId]);
+    var fetchedSubscriptionSources:any = await updateSubscriptionSources(subscriptionId, subscriptionSource)
+    return rows;
+}
+
+export const updateSubscriptionSources = async (subscriptionId:number, subscriptionSource:any) => {
+    const [rows, fields] = await (await dbconnect).query(`SELECT * FROM t_subscription_sources WHERE subscription = ?`, [subscriptionId]);
+    let sources:any = []
+    let rowscommon:any = rows
+    rowscommon.forEach((element:any) => {
+        sources.push(element.source.toString())
+    });
+    if(subscriptionSource == sources) {
+        return true;
+    }
+
+    // Si une subscription est dans SOURCES mais pas dans SUBSCRIPTIONSOURCE alors on veut la DELETE
+    sources.forEach(async (element:any) => {
+        if(!subscriptionSource.includes(element)) {
+            const [rows, fields] = await (await dbconnect).query(`DELETE FROM t_subscription_sources WHERE source = ? AND subscription = ?;`, [element, subscriptionId]);
+        }
+    });
+    // Si une subscription est dans SUBSCRIPTIONSOURCE mais pas dans SOURCES alors on veut l'UPDATE
+    subscriptionSource.forEach(async (element:any) => {
+        if(!sources.includes(element)) {
+            const [rows, fields] = await (await dbconnect).query(`INSERT INTO t_subscription_sources (subscription, source) VALUES (?, ?) ;`, [subscriptionId, element]);
+        }
+    })
+    return rows;
 }
