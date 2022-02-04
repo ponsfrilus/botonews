@@ -1,0 +1,5 @@
+<%- include('partials/header', {css: '' }); -%>
+<h1><%- user.userid ? `Logged in as ${user.username}` : 'Not logged in' %></h1>
+<a href="/login">Login here</a>
+<p class="toto"></p>
+<%- include('partials/footer'); -%>
