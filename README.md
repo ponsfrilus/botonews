@@ -11,8 +11,9 @@ Botonews a pour but de fournir une plateforme de distribution de news, à partir
 
 1. Cloner le repo avec [Git](https://git-scm.com/) : `git clone git@github.com:Azecko/botonews.git`
 2. Se déplacer dans le répertoire : `cd botonews`
-3. Démarrer les conteneurs grâce à la commande : `docker-compose up`
-4. Se rendre sur https://localhost:8081/login et profiter ! :)  
+3. Renommer `sample.env-auth` et `sample.env-db` en `.env-auth` et `.env-db` et y remplacer les données avec vos données.
+4. Démarrer les conteneurs grâce à la commande : `docker-compose up`
+5. Se rendre sur https://localhost:8081/login et profiter ! :)  
 *En cas de problème, [ouvrir une issue](https://github.com/Azecko/botonews/issues/new)*
 
 ## Terminologie
