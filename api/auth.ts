@@ -27,12 +27,16 @@ async function registerUser(userProfile:any, email:any) {
     user.provider.provider = userProfile.provider
 
     var fetchedUser:any = await getUserByEmail(email)
-    if(fetchedUser.length) {
+    if (fetchedUser.length) {
       user.provider.username = fetchedUser[0].username
       user.provider.userid = fetchedUser[0].user
+    } else {
+      var replacedUser:any = await replaceUser(user.provider.username, email);
+      if (replacedUser.insertId) {
+          user.provider.userid = replacedUser.insertId;
+      }
     }
 
-    var replacedUser:any = await replaceUser(user.provider.username, email);
     return user;
 }
 
