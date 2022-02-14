@@ -32,3 +32,10 @@ Botonews a pour but de fournir une plateforme de distribution de news, à partir
 - [MySQL2](https://www.npmjs.com/package/mysql2)
 - [PassportJS](https://www.passportjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
+
+## Contributeurs
+<!-- start_contributors mode:bubble -->
+![@Azecko avatar](https://images.weserv.nl/?url=https://avatars.githubusercontent.com/u/30987143?v=4&h=144&w=144&fit=cover&mask=circle&maxage=7d)
+![@ponsfrilus avatar](https://images.weserv.nl/?url=https://avatars.githubusercontent.com/u/176002?v=4&h=144&w=144&fit=cover&mask=circle&maxage=7d)
+![@SaphireVert avatar](https://images.weserv.nl/?url=https://avatars.githubusercontent.com/u/45922476?v=4&h=144&w=144&fit=cover&mask=circle&maxage=7d)
+<!-- end_contributors -->
