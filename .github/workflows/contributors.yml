@@ -30,8 +30,23 @@ jobs:
         run: wget -O - https://raw.githubusercontent.com/epfl-dojo/contributeurs-trombinoscope/dev/ponsfrilus/update-contributors.sh | bash
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-            git add README.md
-            git commit -m "[auto] Update README contributors"
-            git push
+      - name: commit if changed
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          # Optional, but recommended
+          # Defaults to "Apply automatic changes"
+          commit_message: [auto] Update contributors
+
+          # Optional. Used by `git-commit`.
+          # See https://git-scm.com/docs/git-commit#_options
+          # commit_options: '--no-verify --signoff'
+
+          # Optional glob pattern of files which should be added to the commit
+          # Defaults to all (.)
+          # See the `pathspec`-documentation for git
+          # - https://git-scm.com/docs/git-add#Documentation/git-add.txt-ltpathspecgt82308203
+          # - https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefpathspecapathspec
+          file_pattern: README.md
+
+          # Optional commit user and author settings
+          commit_user_name: ContributorsBot # defaults to "GitHub Actions"
