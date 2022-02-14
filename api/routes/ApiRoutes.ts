@@ -42,8 +42,8 @@ export class ApiRoutes {
     )
     this.server.get('/google/callback',
       passport.authenticate('google', {
-        successRedirect: '/profile/personal-details',
-        failureRedirect: '/profile/personal-details',
+        successRedirect: '/',
+        failureRedirect: '/',
       })
     )
     this.server.get('/auth/github',
@@ -51,8 +51,8 @@ export class ApiRoutes {
     )
     this.server.get('/github/callback',
     passport.authenticate('github', {
-      successRedirect: '/profile/personal-details',
-      failureRedirect: '/profile/personal-details',
+      successRedirect: '/',
+      failureRedirect: '/',
       scope: ['user:email']
       })
     )
