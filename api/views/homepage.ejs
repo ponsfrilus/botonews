@@ -1,5 +1,52 @@
 <%- include('partials/header', {css: '' }); -%>
-<h1><%- user.userid ? `Logged in as ${user.username}` : 'Not logged in' %></h1>
-<a href="/login">Login here</a>
-<p class="toto"></p>
-<%- include('partials/footer'); -%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-sm">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown float-right">
+                <% if(user.userid){ %>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="" id="profile-picture" width="40" height="40" class="rounded-circle">
+                        <script>
+                            $("#profile-picture").attr("src", `https://www.gravatar.com/avatar/${CryptoJS.MD5("<%= user.email %>")}?d=identicon`)
+                        </script>
+                    </a>
+                    <div class="dropdown-menu" style="left: -90px; top: 50px;" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/profile/botonews-settings">Edit subscriptions</a>
+                        <a class="dropdown-item" href="/profile/personal-details">Edit Profile</a>
+                        <a class="dropdown-item" href="/logout">Log Out</a>
+                    </div>
+                <% } else{ %>
+                    <div class="login-now" style="color: white;">
+                        <h6>You want to customize this page ? <a href="/login">Login</a> now ! 😉</h6>
+                    </div>
+                <% } %>
+            </li>
+        </ul>
+    </nav>
+    <main class="p-5">
+        <div class="row" id="cards-container">
+            <% for(var i=0; i < news.length; i++) { %>
+                <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 botonewsarticle mb-4">
+                    <div class="card text-white bg-dark">
+                        <a href="<%- news[i].item_url %>" target="_blank">
+                            <img src="<%= news[i].image_url %>"
+                                class="card-img-top" width="100%" alt="<%= news[i].image_alt %>"/>
+                        </a>
+                        <div class="card-body">
+                            <h5 class="caMotivQuoteItemrd-title"><%= news[i].title %></h5>
+                            <p class="card-text">
+                                <%- news[i].subtitle %>
+                            </p>
+                            <p class="card-text">
+                                <small class="text-muted"><%= new Date(news[i].created_at).toLocaleString() %></small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </main>
+    <%- include('partials/footer'); -%>
