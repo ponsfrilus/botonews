@@ -36,4 +36,5 @@ Botonews a pour but de fournir une plateforme de distribution de news, à partir
 
 ## Contributeurs
 <!-- start_contributors mode:bubble -->
+
 <!-- end_contributors -->
