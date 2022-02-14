@@ -6,6 +6,7 @@ Botonews a pour but de fournir une plateforme de distribution de news, à partir
   - [Comment installer Botonews](#comment-installer-botonews)
   - [Terminologie](#terminologie)
   - [Technologies](#technologies)
+  - [Contributeurs](#contributeurs)
 
 ## Comment installer Botonews
 
