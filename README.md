@@ -6,6 +6,7 @@ Botonews a pour but de fournir une plateforme de distribution de news, à partir
   - [Comment installer Botonews](#comment-installer-botonews)
   - [Terminologie](#terminologie)
   - [Technologies](#technologies)
+  - [Contributeurs](#contributeurs)
 
 ## Comment installer Botonews
 
@@ -32,3 +33,7 @@ Botonews a pour but de fournir une plateforme de distribution de news, à partir
 - [MySQL2](https://www.npmjs.com/package/mysql2)
 - [PassportJS](https://www.passportjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
+
+## Contributeurs
+<!-- start_contributors mode:bubble -->
+<!-- end_contributors -->
