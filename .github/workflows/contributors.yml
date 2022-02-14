@@ -35,7 +35,7 @@ jobs:
         with:
           # Optional, but recommended
           # Defaults to "Apply automatic changes"
-          commit_message: [auto] Update contributors
+          commit_message: "[auto] Update contributors"
 
           # Optional. Used by `git-commit`.
           # See https://git-scm.com/docs/git-commit#_options
