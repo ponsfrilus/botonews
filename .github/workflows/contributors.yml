@@ -27,7 +27,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: update the readme
-        run: wget -O - https://raw.githubusercontent.com/epfl-dojo/contributeurs-trombinoscope/dev/ponsfrilus/update-contributors.sh | bash
+        run: wget -O - https://raw.githubusercontent.com/epfl-dojo/contributors-trombinoscope/dev/ponsfrilus/update-contributors.sh | bash
         
       - name: test
         run: cat .git/config
