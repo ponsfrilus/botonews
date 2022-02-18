@@ -88,7 +88,7 @@ export const getSubscription = async (subscriptionId:number) => {
 
 export const getAllSubscriptions = async (userId:string) => {
         const [rows, fields] = await (await dbconnect).query(`
-            SELECT sub.subscription, usr.*, sub.modalities, sup.title AS support_title, sup.support, src.title AS source_title, src.source 
+            SELECT sub.subscription, usr.*, sub.modalities, sup.title AS support_title, sup.support, sup.is_unique, src.title AS source_title, src.source 
                 FROM t_subscriptions sub
                 LEFT JOIN t_users usr ON (usr.user = sub.user)
                 LEFT JOIN t_supports sup ON (sup.support = sub.support)
@@ -98,7 +98,6 @@ export const getAllSubscriptions = async (userId:string) => {
         `, [userId]);
 
     var rowscommon:any = rows
-    console.log(rowscommon)
     if(rowscommon.length == 0) {
         return rowscommon
     }
@@ -110,7 +109,8 @@ export const getAllSubscriptions = async (userId:string) => {
                 "subscription": e.subscription,
                 "support": {
                     "id": e.support,
-                    "title": e.support_title
+                    "title": e.support_title,
+                    "is_unique": e.is_unique
                 },
                 "modalities": e.modalities,
                 "sources": [
@@ -140,6 +140,19 @@ export const getAllSubscriptions = async (userId:string) => {
     };
 
     return response;
+}
+
+export const getSplashPageSubscription = async (userId:string) => {
+    const [rows, fields] = await (await dbconnect).query(`
+    SELECT sub.subscription, usr.*, sub.modalities, sup.title AS support_title, sup.support, src.title AS source_title, src.source 
+        FROM t_subscriptions sub
+        LEFT JOIN t_users usr ON (usr.user = sub.user)
+        LEFT JOIN t_supports sup ON (sup.support = sub.support)
+        LEFT JOIN t_subscription_sources subsrc ON (subsrc.subscription = sub.subscription)
+        LEFT JOIN t_sources src ON (src.source = subsrc.source)
+    WHERE usr.user = ? AND sup.support = 4
+`, [userId]);
+    return rows;
 }
 
 export const insertSubscription = async (userId:string, support:string, modalities:JSON) => {
