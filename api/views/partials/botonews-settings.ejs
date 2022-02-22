@@ -127,7 +127,11 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="text-right">
                             <button type="button" id="submit" name="submit"
-                                class="btn btn-primary update-button"><%- subscription?.subscription ? 'Save' : 'Create a new subscription' %></button>
+                                class="btn btn-primary update-button"><%- subscription?.subscription ? 'Save' : 'Create a new subscription' %></button>&emsp;&emsp;
+                            <% if(subscription?.subscription) {%>
+                                <button type="button" id="submit" name="submit"
+                                class="btn btn-danger delete-button">Delete</button>
+                            <% } %>
                         </div>
                     </div>
                 </div>
@@ -221,6 +225,17 @@
 
 
             }
+        });
+
+        $( ".delete-button" ).click(function() {
+            var subscriptionId = $(this).attr("value");
+            axios.delete(`http://127.0.0.1:8081/subscriptions/<%= subscription?.subscription %>`, {
+            })
+            .then(async function (response) {
+                if (response.status == 200) {
+                    location.href = "/profile/my-subscriptions"
+                }
+            })
         });
 
         // Showing or not showing Advanced mode
