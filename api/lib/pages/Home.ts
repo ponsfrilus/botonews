@@ -6,13 +6,32 @@ import { fetchGoEpfl } from '../FetchGoEpfl';
 const home = async (req: any, res: Response) => {
   if(req.user) { // User is logged in
     let userSubscriptions = await getAllSubscriptions(req.session.passport.user.provider.userid)
-    let splashPageSubscriptions:any = []
+    let news:any = [];
+    let splashPageSubscriptions:any = [];
+
+    if(userSubscriptions.length == 0) { // User is logged in but doesn't have subscription at all
+      splashPageSubscriptions[0] = {
+        "subscription": "FAKE",
+        "support": {
+            "id": 4,
+            "title": "SplashPage",
+            "is_unique": 1
+        },
+        "modalities": {},
+        "sources": [ {"id": 1, "title": "Go"} ]
+      }
+
+      let goEpfl: BotonewsItem[] = await fetchGoEpfl({number: 5});
+      news = news.concat(goEpfl);
+
+      return res.render('homepage',  {user: req.session.passport.user.provider, subscriptions: {}, news: news, splashPageSubscription: splashPageSubscriptions[0]});
+    }
+
     userSubscriptions.subscriptions.forEach((element:any) => {
       if(element.support.title == "SplashPage") {
         splashPageSubscriptions.push(element)
       }
     });
-    let news:any = [];
     if(!splashPageSubscriptions[0]) { // User is logged in but does not have any splashpage subscription created.
 
       splashPageSubscriptions[0] = {
