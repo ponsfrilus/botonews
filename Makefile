@@ -21,5 +21,5 @@ ps:
 .PHONY: clean
 clean:
 	docker-compose stop $(docker ps -a -q --filter "label=com.docker.compose.project.working_dir=${PWD}")
-	docker rm $(docker ps -a -q --filter "label=com.docker.compose.project.working_dir=${PWD}")
+	docker rm $(docker ps -a -q --filter "label=com.docker.compose.project.working_dir=${PWD}") || true
 	sudo rm -rf db/data/*
