@@ -2,6 +2,7 @@ version: "3.7"
 services:
   api:
     image: "node:17"
+    container_name: botonews-api
     user: "node"
     container_name: botonews-api
     working_dir: /home/node/app
@@ -20,6 +21,7 @@ services:
   frontend:
     container_name: botonews-frontend
     image: "httpd:latest"
+    container_name: botonews-web
     volumes:
       - "./public-frontend:/usr/local/apache2/htdocs/"
     expose:
