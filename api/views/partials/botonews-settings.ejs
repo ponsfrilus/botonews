@@ -104,36 +104,23 @@
 
                     <div class="supports">
                         <h5>Supports</h5>
+                        <% for(var i=0; i < supports.length; i++) { %>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="supports" id="<%= supports[i].title %>" value="<%= supports[i].support %>" <%- subscription?.support?.title == supports[i].title  ? 'checked=checked' : '' %>
+                                <%- (supports[i].is_unique && subscriptions?.subscriptions?.some(e => e.support.title === supports[i].title)) ? 'disabled=disabled' : '' %>>
+                                <%# Si le support est présent dans la liste des subscriptions de l'utilisateur et qu'il est unique, on empêche l'utilisateur de cliquer dessus %>
+                                <% if(supports[i].is_unique && subscriptions?.subscriptions?.some(e => e.support.title === supports[i].title)){ %>
+                                    <label class="form-check-label" for="<%= supports[i].title %>">
+                                        <%= supports[i].title %> | You already have one - <a href="/profile/botonews-settings/<%= subscriptions?.subscriptions?.find(e => e.support.title === supports[i].title).subscription%>">Edit it</a>
+                                    </label>
+                                <% } else{ %>  
+                                    <label class="form-check-label" for="<%= supports[i].title %>">
+                                        <%= supports[i].title %>
+                                    </label>
+                                <% } %>
+                            </div>
+                        <% } %>
 
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="supports" id="splashpage" value="4" <%- subscription?.support?.title == "SplashPage"  ? 'checked=checked' : ''%> <%- splashPageSubscriptionExists ? 'disabled=disabled' : ''%>><% if(splashPageSubscriptionExists){ %>
-                                <label class="form-check-label" for="splashpage">
-                                    SplashPage | You already have one - <a href="/profile/botonews-settings/<%= splashPageSubscriptionExists %>">Edit it</a>
-                                </label>
-                            <% } else{ %>  
-                                <label class="form-check-label" for="splashpage">
-                                    SplashPage (Botonews main page)
-                                </label>
-                            <% } %>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="supports" id="telegram" value="1" <%- subscription?.support?.title == "Telegram"  ? 'checked=checked' : ''%>>
-                            <label class="form-check-label" for="telegram">
-                                Telegram
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="supports" id="discord" value="2" <%- subscription?.support?.title == "Discord"  ? 'checked=checked' : ''%>>
-                            <label class="form-check-label" for="discord">
-                                Discord
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="supports" id="mail" value="3" <%- subscription?.support?.title == "Mail"  ? 'checked=checked' : ''%>>
-                            <label class="form-check-label" for="mail">
-                                Mail
-                            </label>
-                        </div>
                     </div>
                 </div>
                 <div class="row gutters">

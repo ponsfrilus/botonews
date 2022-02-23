@@ -19,7 +19,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <% if(typeof subscriptions !== "undefined"){ %>
+                          <% if(typeof subscriptions !== "undefined" && subscriptions?.subscriptions?.length){ %>
                             <% for(var i=0; i < subscriptions.subscriptions.length; i++) { %>
                               <tr data-value=<%= subscriptions.subscriptions[i].subscription%>>
                                 <td><%= subscriptions.subscriptions[i].subscription %></td>

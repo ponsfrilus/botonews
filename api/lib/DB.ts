@@ -206,3 +206,9 @@ export const updateSubscriptionSources = async (subscriptionId:number, subscript
     })
     return rows;
 }
+
+export const getAllSupports = async () => {
+    const [rows, fields] = await (await dbconnect).query(`SELECT * FROM t_supports;`);
+
+    return rows
+}
