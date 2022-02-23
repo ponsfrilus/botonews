@@ -112,11 +112,14 @@
     </div>
 
     <div class="text-right">
-      <button type="button" id="submit" name="submit" class="btn btn-primary update-button"><%- subscription?.subscription ? 'Save' : 'Create' %></button>&emsp;&emsp;
-    <% if(subscription?.subscription) {%>
+      <a href="/profile/subscriptions"><button type="button" id="submit" name="submit" class="mb-2 btn btn-sm btn-light back-button">Back to subscription list</button></a>
+      <br>
+      <% if(subscription?.subscription) {%>
       <button type="button" id="submit" name="submit" class="btn btn-danger delete-button">Delete</button>
-    <% } %>
+      <% } %>
+      <button type="button" id="submit" name="submit" class="btn btn-primary update-button"><%- subscription?.subscription ? 'Save' : 'Create' %></button>
     </div>
+
   </form>
 </div>
 
