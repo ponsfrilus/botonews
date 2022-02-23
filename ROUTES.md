@@ -35,7 +35,7 @@ DELETE '/user', user);
 GET '/profile/personal-details', isLoggedIn, profile);
 GET '/profile/botonews-settings', isLoggedIn, profile);
 GET '/profile/linked-accounts', isLoggedIn, profile);
-GET '/profile/my-subscriptions', isLoggedIn, profile);
+GET '/profile/subscriptions', isLoggedIn, profile);
 GET '/profile', isLoggedIn, profile);
 
 // Subscriptions

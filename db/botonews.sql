@@ -107,18 +107,19 @@ CREATE TABLE `t_supports` (
   `support` int NOT NULL,
   `title` varchar(100) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
-  `picture` varchar(255) DEFAULT NULL
+  `picture` varchar(255) DEFAULT NULL,
+  `is_unique` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `t_supports`
 --
 
-INSERT INTO `t_supports` (`support`, `title`, `description`, `picture`) VALUES
-(1, 'Telegram', 'Receive news on Telegram', ''),
-(2, 'Discord', 'Receive news on Discord', ''),
-(3, 'Mail', 'Receive news by email', ''),
-(4, 'SplashPage', 'News on the botonews splash page', '');
+INSERT INTO `t_supports` (`support`, `title`, `description`, `picture`, `is_unique`) VALUES
+(1, 'Telegram', 'Receive news on Telegram', '', 0),
+(2, 'Discord', 'Receive news on Discord', '', 0),
+(3, 'Mail', 'Receive news by email', '', 0),
+(4, 'SplashPage', 'News on the botonews splash page', '', 1);
 
 -- --------------------------------------------------------
 

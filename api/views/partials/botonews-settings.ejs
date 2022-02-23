@@ -76,8 +76,8 @@
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input days" type="checkbox" value="" name="Thursday" id="Thursday" <%- subscription?.modalities?.days?.includes("thursday") ? 'checked=checked' : ''%>>
-                            <label class="form-check-label" for="Thursday">
+                            <input class="form-check-input days" type="checkbox" value="" name="thursday" id="thursday" <%- subscription?.modalities?.days?.includes("thursday") ? 'checked=checked' : ''%>>
+                            <label class="form-check-label" for="thursday">
                                 Thursday
                             </label>
                         </div>
@@ -104,26 +104,34 @@
 
                     <div class="supports">
                         <h5>Supports</h5>
+                        <% for(var i=0; i < supports.length; i++) { %>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="supports" id="<%= supports[i].title %>" value="<%= supports[i].support %>" <%- subscription?.support?.title == supports[i].title  ? 'checked=checked' : '' %>
+                                <%- (supports[i].is_unique && subscriptions?.subscriptions?.some(e => e.support.title === supports[i].title)) ? 'disabled=disabled' : '' %>>
+                                <%# Si le support est présent dans la liste des subscriptions de l'utilisateur et qu'il est unique, on empêche l'utilisateur de cliquer dessus %>
+                                <% if(supports[i].is_unique && subscriptions?.subscriptions?.some(e => e.support.title === supports[i].title)){ %>
+                                    <label class="form-check-label" for="<%= supports[i].title %>">
+                                        <%= supports[i].title %> | You already have one - <a href="/profile/botonews-settings/<%= subscriptions?.subscriptions?.find(e => e.support.title === supports[i].title).subscription%>">Edit it</a>
+                                    </label>
+                                <% } else{ %>  
+                                    <label class="form-check-label" for="<%= supports[i].title %>">
+                                        <%= supports[i].title %>
+                                    </label>
+                                <% } %>
+                            </div>
+                        <% } %>
 
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="supports" id="splashpage" value="4" <%- subscription?.support?.title == "SplashPage"  ? 'checked=checked' : ''%>>SplashPage (Botonews main page)
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="supports" id="telegram" value="1" <%- subscription?.support?.title == "Telegram"  ? 'checked=checked' : ''%>>Telegram
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="supports" id="discord" value="2" <%- subscription?.support?.title == "Discord"  ? 'checked=checked' : ''%>>Discord
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="supports" id="mail" value="3" <%- subscription?.support?.title == "Mail"  ? 'checked=checked' : ''%>>Mail
-                        </div>
                     </div>
                 </div>
                 <div class="row gutters">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="text-right">
                             <button type="button" id="submit" name="submit"
-                                class="btn btn-primary update-button"><%- subscription?.subscription ? 'Save' : 'Create a new subscription' %></button>
+                                class="btn btn-primary update-button"><%- subscription?.subscription ? 'Save' : 'Create a new subscription' %></button>&emsp;&emsp;
+                            <% if(subscription?.subscription) {%>
+                                <button type="button" id="submit" name="submit"
+                                class="btn btn-danger delete-button">Delete</button>
+                            <% } %>
                         </div>
                     </div>
                 </div>
@@ -217,6 +225,17 @@
 
 
             }
+        });
+
+        $( ".delete-button" ).click(function() {
+            var subscriptionId = $(this).attr("value");
+            axios.delete(`http://127.0.0.1:8081/subscriptions/<%= subscription?.subscription %>`, {
+            })
+            .then(async function (response) {
+                if (response.status == 200) {
+                    location.href = "/profile/subscriptions"
+                }
+            })
         });
 
         // Showing or not showing Advanced mode
