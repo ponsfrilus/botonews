@@ -24,19 +24,19 @@ const home = async (req: any, res: Response) => {
             "title": "SplashPage",
             "is_unique": 1
         },
-        "modalities": {},
-        "sources": [ {"title": "Go"} ]
+        "modalities": { "random": true},
+        "sources": [ {"title": "Go"}, {"title": "Actu"} ]
       }
     }
     for (let element of splashPageSubscription.sources) {
       // TODO: find a way to dynamically call fetch method based on element.title
       switch(element.title) {
         case "Go":
-          let goEpfl: BotonewsItem[] = await fetchGoEpfl({number: 5});
+          let goEpfl: BotonewsItem[] = await fetchGoEpfl({number: 6});
           news = news.concat(goEpfl);
         break;
         case "Actu":
-          let actu: BotonewsItem[] = await fetchActu({number: 5});
+          let actu: BotonewsItem[] = await fetchActu({number: 6});
           news = news.concat(actu);
         break;
       }
@@ -44,13 +44,22 @@ const home = async (req: any, res: Response) => {
 
   } else { // User is not logged in
 
-    let goEpfl: BotonewsItem[] = await fetchGoEpfl({number: 5});
+    splashPageSubscription = {
+      "modalities": {
+        "random": true
+      }
+    }
+
+    let goEpfl: BotonewsItem[] = await fetchGoEpfl({number: 6});
     news = news.concat(goEpfl);
-    let actu: BotonewsItem[] = await fetchActu({number: 5});
+    let actu: BotonewsItem[] = await fetchActu({number: 6});
     news = news.concat(actu);
 
   }
 
+  if (splashPageSubscription.modalities?.random) {
+    news = news.sort( () => Math.random() - 0.5)
+  }
   res.render('homepage',  {user, subscriptions, news, splashPageSubscription});
 };
 
