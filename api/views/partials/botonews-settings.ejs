@@ -14,10 +14,13 @@
     </div>
 
     <div class="news-sources">
-      <h5>News sources</h5>
-      <a class='my-tool-tip' data-toggle="tooltip" data-placement="right" title="Sources are the different media sources that you can receive.">
-        <i class="bi bi-info-circle" style="display: inline;"></i>
-      </a>
+      <h5>
+        News sources
+        <a class='my-tool-tip' data-toggle="tooltip" data-placement="right" title="Sources are the different media sources that you can receive.">
+          <i class="bi bi-info-circle" style="display: inline;"></i>
+        </a>
+      </h5>
+
       <div class="form-check">
         <input class="form-check-input sources" type="checkbox" value="1" name="go" id="go_epfl" <%- subscription?.sources?.filter(el => el.title === "Go").length ? 'checked=checked' : ''%>>
         <label class="form-check-label" for="go_epfl">
