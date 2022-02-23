@@ -1,46 +1,30 @@
-<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
-    <div class="card h-100">
-        <div class="card-body">
-            <div class="row gutters">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h6 class="mb-3 underline">Personal Details</h6>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" class="form-control username-input username" id="username" placeholder=<%=user.username %>>
-                    </div>
-                </div>
-            </div>
-            <div class="row gutters">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="text-right">
-                        <button type="button" id="submit" name="submit" class="btn btn-primary update-button">Update</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<h3>Personal Details</h3>
+<div class="form-group">
+  <label for="username">Username</label>
+  <input type="text" class="form-control username-input username" id="username" placeholder=<%=user.username %>>
+</div>
+<div class="text-right">
+  <button type="button" id="submit" name="submit" class="btn btn-primary update-button">Update</button>
 </div>
 <script>
-    $(".update-button").click(function () {
-      let username;
-      if ($(".username-input").val() == "") {
-        username = "<%= user.username %>"
-      } else {
-        username = $(".username-input").val()
-      }
-      axios.post('http://127.0.0.1:8081/user/edit', {
-        username: username,
-        email: "<%= user.email %>"
+  $(".update-button").click(function () {
+    let username;
+    if ($(".username-input").val() == "") {
+      username = "<%= user.username %>"
+    } else {
+      username = $(".username-input").val()
+    }
+    axios.post('http://127.0.0.1:8081/user/edit', {
+      username: username,
+      email: "<%= user.email %>"
+    })
+      .then(function (response) {
+        if (response.status == 201) {
+          $(".user-name").text(response.data.user.username)
+          $(".username").val("")
+          $(".username").attr("placeholder", response.data.user.username);
+          $("#alert").css("display", "block")
+        }
       })
-        .then(function (response) {
-          if (response.status == 201) {
-            $(".user-name").text(response.data.user.username)
-            $(".username").val("")
-            $(".username").attr("placeholder", response.data.user.username);
-            $("#alert").css("display", "block")
-          }
-        })
-    });
+  });
 </script>

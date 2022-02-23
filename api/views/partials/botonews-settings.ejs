@@ -1,283 +1,219 @@
-<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
-    <div class="card h-100">
-        <div class="card-body">
-            <div class="row gutters">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h6 class="mb-3 underline">Botonews settings</h6>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+<h3>Botonews settings</h3>
+<div class="form-group">
+  <form action="" name="form-settings">
 
-                    <form action="" name="form-settings">
-
-                    <div class="modes">
-                        <h3>Modes</h3>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="modes" id="auto-mode" value="Auto" <%- subscription?.modalities?.hasOwnProperty('time') ? '' : 'checked=checked' %>>Auto
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="modes" id="advanced-mode" value="Advanced" <%- subscription?.modalities?.hasOwnProperty('time') ? 'checked=checked' : '' %>>Advanced
-                        </div>
-                        <br><br>
-                    </div>
-
-                    <div class="news-sources">
-                        <h5 style="display: inline;">News sources</h5>
-
-                        <a class='my-tool-tip' data-toggle="tooltip" data-placement="right" title="Sources are the different media sources that you can receive.">
-                            <i class="bi bi-info-circle" style="display: inline;"></i>
-                        </a>
-
-                        <div class="form-check">
-                            <input class="form-check-input sources" type="checkbox" value="1" name="go" id="go_epfl" <%- subscription?.sources?.filter(el => el.title === "Go").length ? 'checked=checked' : ''%>>
-                            <label class="form-check-label" for="go_epfl">
-                                GoEPFL
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input sources" type="checkbox" value="2" name="actu" id="ActuEPFL" <%- subscription?.sources?.filter(el => el.title === "Actu").length ? 'checked=checked' : ''%>>
-                            <label class="form-check-label" for="ActuEPFL">
-                                Actu EPFL
-                            </label>
-                        </div>
-                        <br>
-                    </div>
-
-                    <div class="time" <%- subscription?.modalities?.hasOwnProperty('time') ? '' : 'style="display: none"' %>>
-                        <h5 style="display: inline;">Time</h5>
-                        <a class='my-tool-tip' data-toggle="tooltip" data-placement="right" title="Time is the time that you want to receive the news.">
-                            <i class="bi bi-info-circle" style="display: inline;"></i>
-                        </a>
-                        <input id="news-time" type="time" name="news-time" value="<%- subscription?.modalities?.hasOwnProperty('time') ? subscription?.modalities?.time : '' %>" style="display: block;">
-                        <br><br>
-                    </div>
-
-
-
-                    <div class="days" <%- subscription?.modalities?.hasOwnProperty('days') ? '' : 'style="display: none"' %>>
-                        <h5>Days</h5>
-
-                        <div class="form-check">
-                            <input class="form-check-input days" type="checkbox" value="" name="monday" id="monday" <%- subscription?.modalities?.days?.includes("monday") ? 'checked=checked' : ''%>>
-                            <label class="form-check-label" for="monday">
-                                Monday
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input days" type="checkbox" value="" name="tuesday" id="tuesday" <%- subscription?.modalities?.days?.includes("tuesday") ? 'checked=checked' : ''%>>
-                            <label class="form-check-label" for="tuesday">
-                                Tuesday
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input days" type="checkbox" value="" name="wednesday" id="wednesday" <%- subscription?.modalities?.days?.includes("wednesday") ? 'checked=checked' : ''%>>
-                            <label class="form-check-label" for="wednesday">
-                                Wednesday
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input days" type="checkbox" value="" name="thursday" id="thursday" <%- subscription?.modalities?.days?.includes("thursday") ? 'checked=checked' : ''%>>
-                            <label class="form-check-label" for="thursday">
-                                Thursday
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input days" type="checkbox" value="" name="friday" id="friday" <%- subscription?.modalities?.days?.includes("friday") ? 'checked=checked' : ''%>>
-                            <label class="form-check-label" for="friday">
-                                Friday
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input days" type="checkbox" value="" name="saturday" id="saturday" <%- subscription?.modalities?.days?.includes("saturday") ? 'checked=checked' : ''%>>
-                            <label class="form-check-label" for="saturday">
-                                Saturday
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input days" type="checkbox" value="" name="sunday" id="sunday" <%- subscription?.modalities?.days?.includes("sunday") ? 'checked=checked' : ''%>>
-                            <label class="form-check-label" for="sunday">
-                                Sunday
-                            </label>
-                        </div>
-                        <br>
-                    </div>
-
-                    <div class="supports">
-                        <h5>Supports</h5>
-                        <% for(var i=0; i < supports.length; i++) { %>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="supports" id="<%= supports[i].title %>" value="<%= supports[i].support %>" <%- subscription?.support?.title == supports[i].title  ? 'checked=checked' : '' %>
-                                <%- (supports[i].is_unique && subscriptions?.subscriptions?.some(e => e.support.title === supports[i].title)) ? 'disabled=disabled' : '' %>>
-                                <%# Si le support est présent dans la liste des subscriptions de l'utilisateur et qu'il est unique, on empêche l'utilisateur de cliquer dessus %>
-                                <% if(supports[i].is_unique && subscriptions?.subscriptions?.some(e => e.support.title === supports[i].title)){ %>
-                                    <label class="form-check-label" for="<%= supports[i].title %>">
-                                        <%= supports[i].title %> | You already have one - <a href="/profile/botonews-settings/<%= subscriptions?.subscriptions?.find(e => e.support.title === supports[i].title).subscription%>">Edit it</a>
-                                    </label>
-                                <% } else{ %>  
-                                    <label class="form-check-label" for="<%= supports[i].title %>">
-                                        <%= supports[i].title %>
-                                    </label>
-                                <% } %>
-                            </div>
-                        <% } %>
-
-                    </div>
-                </div>
-                <div class="row gutters">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="text-right">
-                            <button type="button" id="submit" name="submit"
-                                class="btn btn-primary update-button"><%- subscription?.subscription ? 'Save' : 'Create a new subscription' %></button>&emsp;&emsp;
-                            <% if(subscription?.subscription) {%>
-                                <button type="button" id="submit" name="submit"
-                                class="btn btn-danger delete-button">Delete</button>
-                            <% } %>
-                        </div>
-                    </div>
-                </div>
-            </form>
-            </div>
-        </div>
+    <div class="modes">
+      <h5>Modes</h5>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="modes" id="auto-mode" value="Auto" <%- subscription?.modalities?.hasOwnProperty('time') ? '' : 'checked=checked' %>>Auto
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="modes" id="advanced-mode" value="Advanced" <%- subscription?.modalities?.hasOwnProperty('time') ? 'checked=checked' : '' %>>Advanced
+      </div>
+      <hr>
     </div>
-    <script>
 
-        // // Auto mode checked by default on page load / reload
-        // // $(function() {
-        // //     var $autoradio = $('input[type=radio][name=modes][value=Auto]');
-        // //     $autoradio.prop('checked', true);
-        // // });
+    <div class="news-sources">
+      <h5>News sources</h5>
+      <a class='my-tool-tip' data-toggle="tooltip" data-placement="right" title="Sources are the different media sources that you can receive.">
+        <i class="bi bi-info-circle" style="display: inline;"></i>
+      </a>
+      <div class="form-check">
+        <input class="form-check-input sources" type="checkbox" value="1" name="go" id="go_epfl" <%- subscription?.sources?.filter(el => el.title === "Go").length ? 'checked=checked' : ''%>>
+        <label class="form-check-label" for="go_epfl">
+          GoEPFL
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input sources" type="checkbox" value="2" name="actu" id="ActuEPFL" <%- subscription?.sources?.filter(el => el.title === "Actu").length ? 'checked=checked' : ''%>>
+        <label class="form-check-label" for="ActuEPFL">
+          Actu EPFL
+        </label>
+      </div>
+      <hr>
+    </div>
 
-        $("a.my-tool-tip").tooltip();
+    <div class="time" <%- subscription?.modalities?.hasOwnProperty('time') ? '' : 'style="display: none"' %>>
+      <h5>Time</h5>
+      <a class='my-tool-tip' data-toggle="tooltip" data-placement="right" title="Time is the time that you want to receive the news.">
+        <i class="bi bi-info-circle" style="display: inline;"></i>
+      </a>
+      <input id="news-time" type="time" name="news-time" value="<%- subscription?.modalities?.hasOwnProperty('time') ? subscription?.modalities?.time : '' %>" style="display: block;">
+    </div>
+    <div class="days" <%- subscription?.modalities?.hasOwnProperty('days') ? '' : 'style="display: none"' %>>
+      <h5>Days</h5>
+      <div class="form-check">
+        <input class="form-check-input days" type="checkbox" value="" name="monday" id="monday" <%- subscription?.modalities?.days?.includes("monday") ? 'checked=checked' : ''%>>
+        <label class="form-check-label" for="monday">
+          Monday
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input days" type="checkbox" value="" name="tuesday" id="tuesday" <%- subscription?.modalities?.days?.includes("tuesday") ? 'checked=checked' : ''%>>
+        <label class="form-check-label" for="tuesday">
+          Tuesday
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input days" type="checkbox" value="" name="wednesday" id="wednesday" <%- subscription?.modalities?.days?.includes("wednesday") ? 'checked=checked' : ''%>>
+        <label class="form-check-label" for="wednesday">
+          Wednesday
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input days" type="checkbox" value="" name="thursday" id="thursday" <%- subscription?.modalities?.days?.includes("thursday") ? 'checked=checked' : ''%>>
+        <label class="form-check-label" for="thursday">
+          Thursday
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input days" type="checkbox" value="" name="friday" id="friday" <%- subscription?.modalities?.days?.includes("friday") ? 'checked=checked' : ''%>>
+        <label class="form-check-label" for="friday">
+          Friday
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input days" type="checkbox" value="" name="saturday" id="saturday" <%- subscription?.modalities?.days?.includes("saturday") ? 'checked=checked' : ''%>>
+        <label class="form-check-label" for="saturday">
+          Saturday
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input days" type="checkbox" value="" name="sunday" id="sunday" <%- subscription?.modalities?.days?.includes("sunday") ? 'checked=checked' : ''%>>
+        <label class="form-check-label" for="sunday">
+          Sunday
+        </label>
+      </div>
+      <hr>
+    </div>
 
-        $(".update-button").click(function () {
-            let sources = [];
-            var support = $('input[type=radio][name=supports]:checked').attr('value');
+    <div class="supports">
+      <h5>Supports</h5>
+      <% for(var i=0; i < supports.length; i++) { %>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="supports" id="<%= supports[i].title %>" value="<%= supports[i].support %>" <%- subscription?.support?.title == supports[i].title  ? 'checked=checked' : '' %>
+          <%- (supports[i].is_unique && subscriptions?.subscriptions?.some(e => e.support.title === supports[i].title)) ? 'disabled=disabled' : '' %>>
+        <%# Si le support est présent dans la liste des subscriptions de l'utilisateur et qu'il est unique, on empêche l'utilisateur de cliquer dessus %>
+        <% if(supports[i].is_unique && subscriptions?.subscriptions?.some(e => e.support.title === supports[i].title)){ %>
+        <label class="form-check-label" for="<%= supports[i].title %>">
+          <%= supports[i].title %> | You already have one - <a href="/profile/botonews-settings/<%= subscriptions?.subscriptions?.find(e => e.support.title === supports[i].title).subscription%>">Edit it</a>
+        </label>
+        <% } else{ %>
+        <label class="form-check-label" for="<%= supports[i].title %>">
+          <%= supports[i].title %>
+        </label>
+        <% } %>
+      </div>
+      <% } %>
+      <hr>
+    </div>
 
-            // Fetching all the checked sources and putting them in an array
-            $('.sources:checked').each(function () {
-                sources.push($(this).attr('value'));
-            });
+    <div class="text-right">
+      <button type="button" id="submit" name="submit" class="btn btn-primary update-button"><%- subscription?.subscription ? 'Save' : 'Create' %></button>&emsp;&emsp;
+    <% if(subscription?.subscription) {%>
+      <button type="button" id="submit" name="submit" class="btn btn-danger delete-button">Delete</button>
+    <% } %>
+    </div>
+  </form>
+</div>
 
-            if($('input[type=radio][name=modes][value=Auto]').prop('checked') == true) {
-                if("<%= subscription?.subscription %>") {
-                    // Si la personne vient de cliquer pour éditer une subscription déjà existante
-                    axios.put('http://127.0.0.1:8081/subscriptions/<%= subscription?.subscription %>', {
-                        userId: "<%= user.userid %>",
-                        source: sources,
-                        support: support
-                    })
-                    .then(function (response) {
-                        if (response.status == 201) {
-                            $(".alert-success").removeAttr("style");
-                        }
-                    })
-                } else {
-                    // SI la personne est entrain de créer une nouvelle subscription
-                    axios.post('http://127.0.0.1:8081/subscriptions', {
-                        userId: "<%= user.userid %>",
-                        source: sources,
-                        support: support
-                    })
-                    .then(function (response) {
-                        if (response.status == 201) {
-                            $(".alert-success").removeAttr("style");
-                        }
-                    })
-                }
+<script>
+  $("a.my-tool-tip").tooltip();
+
+  $(".update-button").click(function() {
+    let sources = [];
+    var support = $('input[type=radio][name=supports]:checked').attr('value');
+
+    // Fetching all the checked sources and putting them in an array
+    $('.sources:checked').each(function() {
+      sources.push($(this).attr('value'));
+    });
+
+    if ($('input[type=radio][name=modes][value=Auto]').prop('checked') == true) {
+      if ("<%= subscription?.subscription %>") {
+        // Si la personne vient de cliquer pour éditer une subscription déjà existante
+        axios.put('http://127.0.0.1:8081/subscriptions/<%= subscription?.subscription %>', {
+            userId: "<%= user.userid %>",
+            source: sources,
+            support: support
+          })
+          .then(function(response) {
+            if (response.status == 201) {
+              $(".alert-success").removeAttr("style");
             }
-            else if($('input[type=radio][name=modes][value=Advanced]').prop('checked') == true) {
-                // Subscription type advanced
-                let days = [];
-                $('.days:checked').each(function () {
-                    days.push($(this).attr('name'));
-                });
-                var time = $('#news-time').val();
-
-                let modalities = {}
-                modalities.days = days
-                modalities.time = time
-
-                if("<%= subscription?.subscription %>") {
-                    axios.put('http://127.0.0.1:8081/subscriptions/<%= subscription?.subscription %>', {
-                        userId: "<%= user.userid %>",
-                        source: sources,
-                        support: support,
-                        modalities: modalities
-                    })
-                    .then(function (response) {
-                        if (response.status == 201) {
-                            $(".alert-success").removeAttr("style");
-                        }
-                    })
-                } else {
-                    axios.post('http://127.0.0.1:8081/subscriptions', {
-                        userId: "<%= user.userid %>",
-                        source: sources,
-                        support: support,
-                        modalities: modalities
-                    })
-                    .then(function (response) {
-                        if (response.status == 201) {
-                            $(".alert-success").removeAttr("style");
-                        }
-                    })
-                }
-
-
+          })
+      } else {
+        // SI la personne est entrain de créer une nouvelle subscription
+        axios.post('http://127.0.0.1:8081/subscriptions', {
+            userId: "<%= user.userid %>",
+            source: sources,
+            support: support
+          })
+          .then(function(response) {
+            if (response.status == 201) {
+              $(".alert-success").removeAttr("style");
             }
-        });
+          })
+      }
+    } else if ($('input[type=radio][name=modes][value=Advanced]').prop('checked') == true) {
+      // Subscription type advanced
+      let days = [];
+      $('.days:checked').each(function() {
+        days.push($(this).attr('name'));
+      });
+      var time = $('#news-time').val();
 
-        $( ".delete-button" ).click(function() {
-            var subscriptionId = $(this).attr("value");
-            axios.delete(`http://127.0.0.1:8081/subscriptions/<%= subscription?.subscription %>`, {
-            })
-            .then(async function (response) {
-                if (response.status == 200) {
-                    location.href = "/profile/subscriptions"
-                }
-            })
-        });
+      let modalities = {}
+      modalities.days = days
+      modalities.time = time
 
-        // Showing or not showing Advanced mode
-        $('input[type=radio][name=modes]').change(function() {
-            if (this.value == 'Auto') {
-                $('.days').css('display', 'none')
-                $('.time').css('display', 'none')
+      if ("<%= subscription?.subscription %>") {
+        axios.put('http://127.0.0.1:8081/subscriptions/<%= subscription?.subscription %>', {
+            userId: "<%= user.userid %>",
+            source: sources,
+            support: support,
+            modalities: modalities
+          })
+          .then(function(response) {
+            if (response.status == 201) {
+              $(".alert-success").removeAttr("style");
             }
-            else if (this.value == 'Advanced') {
-                $(".days").removeAttr("style");
-                $(".time").removeAttr("style");
+          })
+      } else {
+        axios.post('http://127.0.0.1:8081/subscriptions', {
+            userId: "<%= user.userid %>",
+            source: sources,
+            support: support,
+            modalities: modalities
+          })
+          .then(function(response) {
+            if (response.status == 201) {
+              $(".alert-success").removeAttr("style");
             }
-        });
+          })
+      }
+    }
+  });
 
+  $(".delete-button").click(function() {
+    var subscriptionId = $(this).attr("value");
+    axios.delete(`http://127.0.0.1:8081/subscriptions/<%= subscription?.subscription %>`, {})
+      .then(async function(response) {
+        if (response.status == 200) {
+          location.href = "/profile/subscriptions"
+        }
+      })
+  });
 
+  // Showing or not showing Advanced mode
+  $('input[type=radio][name=modes]').change(function() {
+    if (this.value == 'Auto') {
+      $('.days').css('display', 'none')
+      $('.time').css('display', 'none')
+    } else if (this.value == 'Advanced') {
+      $(".days").removeAttr("style");
+      $(".time").removeAttr("style");
+    }
+  });
 
-        // var tooltip = $('<div id="tooltip" />')
-        //     .css({
-        //         position: "absolute",
-        //         top: -25,
-        //         left: -10,
-        //     })
-        //     .hide();
-        // $("#slider")
-        //     .slider({
-        //         value: 5,
-        //         min: 1,
-        //         max: 20,
-        //         step: 1,
-        //         slide: function (event, ui) {
-        //             tooltip.text(ui.value);
-        //         },
-        //         change: function (event, ui) { },
-        //     })
-        //     .find(".ui-slider-handle")
-        //     .append(tooltip)
-        //     .hover(
-        //         function () {
-        //             tooltip.show();
-        //         },
-        //         function () {
-        //             tooltip.hide();
-        //         }
-        //     );
-    </script>
+</script>
