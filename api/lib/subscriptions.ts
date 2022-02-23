@@ -29,6 +29,13 @@ const subscriptions = async (req: Request, res: Response, next: NextFunction) =>
             if (!req.body.userId || !req.body.source || !req.body.support) return res.status(400) && res.send(JSON.parse(error));
             var modalities = req.body.modalities || {};
             var fetchedSubscriptions:any = await getAllSubscriptions(req.body.userId);
+            if(!fetchedSubscriptions.length) {
+                var insertedSubscription:any = await insertSubscription(req.body.userId, req.body.support, modalities);
+                req.body.source.forEach(async (element: any) => {
+                    var insertedSubscriptionSources:any = await insertSubscriptionSources(insertedSubscription.insertId, element)
+                });
+                return res.status(201) && res.send(insertedSubscription);
+            }
             for (let i = 0; i < fetchedSubscriptions.subscriptions.length; i++) {
                 var subscription = fetchedSubscriptions.subscriptions[i]
                 if(subscription.support.is_unique == 1) {
