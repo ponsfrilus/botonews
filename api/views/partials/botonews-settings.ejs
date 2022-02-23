@@ -1,4 +1,9 @@
-<h3>Botonews settings</h3>
+<% if(subscription?.subscription) {%>
+  <h3>Edit subscription #<%=subscription?.subscription%></h3>
+<% } else { %>
+  <h3>New subscription</h3>
+<% } %>
+
 <div class="form-group">
   <form action="" name="form-settings">
 
