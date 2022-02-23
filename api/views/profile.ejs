@@ -11,7 +11,7 @@
     </div>
     <div class="row gutters">
       <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-        <div class="account-settings p-3 bg-dark rounded border-secondary">
+        <div class="profile-menu p-3 rounded border-secondary">
           <div class="user-profile">
             <div class="user-avatar">
               <img id="profile-picture" src="" alt="Account profile picture">
@@ -36,7 +36,7 @@
         </div>
       </div>
       <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
-        <div class="account-main p-3 bg-dark rounded border-secondary">
+        <div class="profile-main p-3 rounded border-secondary">
           <% if(path=='/profile/personal-details' || path=='/profile' || path=='/profile/') { %>
             <%- include('partials/personal-details'); -%>
           <% } else if(path.includes('/profile/botonews-settings')) { %>
