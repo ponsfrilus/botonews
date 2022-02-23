@@ -1,4 +1,4 @@
-<%- include('partials/header', {css: '' }); -%>
+<%- include('partials/header', {css: 'splashpage.css' }); -%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
@@ -87,7 +87,7 @@
                             <p class="card-text">
                                 <%- news[i].subtitle %>
                             </p>
-                            <p class="card-text">
+                            <p class="card-text text-right">
                                 <small class="text-muted"><%= new Date(news[i].created_at).toLocaleString() %></small>
                             </p>
                         </div>

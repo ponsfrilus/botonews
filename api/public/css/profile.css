@@ -31,14 +31,6 @@ body {
   font-size: 0.8rem;
   text-align: center;
 }
-.card {
-  background: #272e48;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  border: 0;
-  margin-bottom: 1rem;
-}
 .form-control {
   border: 1px solid #596280;
   -webkit-border-radius: 2px;
