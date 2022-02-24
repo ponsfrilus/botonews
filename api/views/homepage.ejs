@@ -28,13 +28,13 @@
 
                             <div class="sources d-inline">
                                 <div class="form-check form-check-inline text-light">
-                                    <input class="form-check-input sources" type="checkbox" value="1" name="go" id="go_epfl" <%- splashPageSubscription?.sources?.filter(el => el.title === "Go").length ? 'checked=checked' : ''%>>
+                                    <input class="form-check-input sources" type="checkbox" value="1" name="go" id="go_epfl" <%- splashPageSubscription?.sources?.filter(el => el.title === "Go") ? 'checked=checked' : ''%>>
                                     <label class="form-check-label" for="go_epfl">
                                         GoEPFL
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline text-light">
-                                    <input class="form-check-input sources" type="checkbox" value="2" name="actu" id="ActuEPFL" <%- splashPageSubscription?.sources?.filter(el => el.title === "Actu").length ? 'checked=checked' : ''%>>
+                                    <input class="form-check-input sources" type="checkbox" value="2" name="actu" id="ActuEPFL" <%- splashPageSubscription?.sources?.filter(el => el.title === "Actu") ? 'checked=checked' : ''%>>
                                     <label class="form-check-label" for="ActuEPFL">
                                         Actu EPFL
                                     </label>
