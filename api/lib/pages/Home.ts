@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getAllSubscriptions } from '../DB';
+import { getAllSources, getAllSubscriptions } from '../DB';
 import { fetchActu } from '../FetchActu';
 import { fetchGoEpfl } from '../FetchGoEpfl';
 
@@ -10,6 +10,8 @@ const home = async (req: any, res: Response) => {
   let user:any = {};
   let subscriptions:any = [];
   let splashPageSubscription:any = {}
+
+  let sources = await getAllSources()
 
   if (req.session.passport?.user?.provider?.userid && req.user) { // User is logged in
 
@@ -66,7 +68,7 @@ const home = async (req: any, res: Response) => {
   if (splashPageSubscription.modalities?.random) {
     news = news.sort( () => Math.random() - 0.5)
   }
-  res.render('homepage',  {user, subscriptions, news, splashPageSubscription});
+  res.render('homepage',  {user, subscriptions, news, splashPageSubscription, sources});
 };
 
 export default home;
