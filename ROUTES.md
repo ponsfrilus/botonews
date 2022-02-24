@@ -33,7 +33,7 @@ POST '/user/edit', user_edit);
 POST '/user/:support', user_edit);
 DELETE '/user', user);
 GET '/profile/personal-details', isLoggedIn, profile);
-GET '/profile/botonews-settings', isLoggedIn, profile);
+GET '/profile/settings', isLoggedIn, profile);
 GET '/profile/linked-accounts', isLoggedIn, profile);
 GET '/profile/subscriptions', isLoggedIn, profile);
 GET '/profile', isLoggedIn, profile);

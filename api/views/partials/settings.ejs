@@ -111,7 +111,7 @@
         <%# Si le support est présent dans la liste des subscriptions de l'utilisateur et qu'il est unique, on empêche l'utilisateur de cliquer dessus %>
         <% if(supports[i].is_unique && subscriptions?.subscriptions?.some(e => e.support.title === supports[i].title)){ %>
         <label class="form-check-label" for="<%= supports[i].title %>">
-          <%= supports[i].title %> | You already have one - <a href="/profile/botonews-settings/<%= subscriptions?.subscriptions?.find(e => e.support.title === supports[i].title).subscription%>">Edit it</a>
+          <%= supports[i].title %> | You already have one - <a href="/profile/settings/<%= subscriptions?.subscriptions?.find(e => e.support.title === supports[i].title).subscription%>">Edit it</a>
         </label>
         <% } else{ %>
         <label class="form-check-label" for="<%= supports[i].title %>">

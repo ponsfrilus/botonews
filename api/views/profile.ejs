@@ -41,8 +41,8 @@
         <div class="profile-main p-3 rounded border-secondary">
           <% if(path=='/profile/personal-details' || path=='/profile' || path=='/profile/') { %>
             <%- include('partials/personal-details'); -%>
-          <% } else if(path.includes('/profile/botonews-settings')) { %>
-            <%- include('partials/botonews-settings'); -%>
+          <% } else if(path.includes('/profile/settings')) { %>
+            <%- include('partials/settings'); -%>
           <% } else if(path=='/profile/linked-accounts') { %>
             <%- include('partials/linked-accounts'); -%>
           <% } else if(path=='/profile/subscriptions') { %>
