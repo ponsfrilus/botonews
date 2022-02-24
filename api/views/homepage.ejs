@@ -27,18 +27,16 @@
                             </div>
 
                             <div class="sources d-inline">
-                                <div class="form-check form-check-inline text-light">
-                                    <input class="form-check-input sources" type="checkbox" value="1" name="go" id="go_epfl" <%- splashPageSubscription?.sources?.filter(el => el.title === "Go") ? 'checked=checked' : ''%>>
-                                    <label class="form-check-label" for="go_epfl">
-                                        GoEPFL
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline text-light">
-                                    <input class="form-check-input sources" type="checkbox" value="2" name="actu" id="ActuEPFL" <%- splashPageSubscription?.sources?.filter(el => el.title === "Actu") ? 'checked=checked' : ''%>>
-                                    <label class="form-check-label" for="ActuEPFL">
-                                        Actu EPFL
-                                    </label>
-                                </div>
+                                <% for(var i=0; i < sources.length; i++) { %>
+                                    <div class="form-check form-check-inline text-light">
+                                        <input class="form-check-input sources" type="checkbox" value="<%= sources[i].source %>" name="<%= sources[i].title %>" id="<%= sources[i].title %>" <%- splashPageSubscription?.sources?.filter(el => el.title === sources[i].title).length ? 'checked=checked' : ''%>>
+                                            <a class='my-tool-tip' data-toggle="tooltip" data-placement="bottom" title="<%= sources[i].description %>">
+                                                <label class="form-check-label" for="<%= sources[i].title %>">
+                                                    <%= sources[i].title %>
+                                                </label>
+                                            </a>
+                                    </div>
+                                <% } %>
                             </div>
 
                             <button type="button" id="submit" name="submit" class="btn btn-primary update-button">Save</button>
@@ -97,6 +95,8 @@
         </div>
     </main>
     <script>
+        $("a.my-tool-tip").tooltip();
+
         // Showing or not showing Advanced mode
         $('input[type=radio][name=modes]').change(function() {
             if (this.value == 'Auto') {

@@ -10,10 +10,16 @@
     <div class="modes">
       <h5>Modes</h5>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="modes" id="auto-mode" value="Auto" <%- subscription?.modalities?.hasOwnProperty('time') ? '' : 'checked=checked' %>>Auto
+        <input class="form-check-input" type="radio" name="modes" id="auto-mode" value="Auto" <%- subscription?.modalities?.hasOwnProperty('time') ? '' : 'checked=checked' %>>
+        <label class="form-check-label" for="auto-mode">
+          Auto
+        </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="modes" id="advanced-mode" value="Advanced" <%- subscription?.modalities?.hasOwnProperty('time') ? 'checked=checked' : '' %>>Advanced
+        <input class="form-check-input" type="radio" name="modes" id="advanced-mode" value="Advanced" <%- subscription?.modalities?.hasOwnProperty('time') ? 'checked=checked' : '' %>>
+        <label class="form-check-label" for="advanced-mode">
+          Advanced
+        </label>
       </div>
       <hr>
     </div>
@@ -26,26 +32,27 @@
         </a>
       </h5>
 
-      <div class="form-check">
-        <input class="form-check-input sources" type="checkbox" value="1" name="go" id="go_epfl" <%- subscription?.sources?.filter(el => el.title === "Go").length ? 'checked=checked' : ''%>>
-        <label class="form-check-label" for="go_epfl">
-          GoEPFL
-        </label>
-      </div>
-      <div class="form-check">
-        <input class="form-check-input sources" type="checkbox" value="2" name="actu" id="ActuEPFL" <%- subscription?.sources?.filter(el => el.title === "Actu").length ? 'checked=checked' : ''%>>
-        <label class="form-check-label" for="ActuEPFL">
-          Actu EPFL
-        </label>
-      </div>
+      <% for(var i=0; i < sources.length; i++) { %>
+        <div class="form-check">
+          <input class="form-check-input sources" type="checkbox" value="<%= sources[i].source %>" name="<%= sources[i].title %>" id="<%= sources[i].title %>" <%- subscription?.sources?.filter(el => el.title === sources[i].title).length ? 'checked=checked' : ''%>>
+          <a class='my-tool-tip' data-toggle="tooltip" data-placement="right" title="<%= sources[i].description %>">
+            <label class="form-check-label" for="<%= sources[i].title %>">
+                <%= sources[i].title %>
+            </label>
+          </a>
+        </div>
+      <% } %>
+
       <hr>
     </div>
 
     <div class="time" <%- subscription?.modalities?.hasOwnProperty('time') ? '' : 'style="display: none"' %>>
-      <h5>Time</h5>
-      <a class='my-tool-tip' data-toggle="tooltip" data-placement="right" title="Time is the time that you want to receive the news.">
-        <i class="bi bi-info-circle" style="display: inline;"></i>
-      </a>
+      <h5>
+        Time
+        <a class='my-tool-tip' data-toggle="tooltip" data-placement="right" title="Time is the time that you want to receive the news.">
+          <i class="bi bi-info-circle" style="display: inline;"></i>
+        </a>
+      </h5>
       <input id="news-time" type="time" name="news-time" value="<%- subscription?.modalities?.hasOwnProperty('time') ? subscription?.modalities?.time : '' %>" style="display: block;">
     </div>
     <div class="days" <%- subscription?.modalities?.hasOwnProperty('days') ? '' : 'style="display: none"' %>>

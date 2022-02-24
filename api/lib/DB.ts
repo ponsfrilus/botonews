@@ -212,3 +212,9 @@ export const getAllSupports = async () => {
 
     return rows
 }
+
+export const getAllSources = async () => {
+    const [rows, fields] = await (await dbconnect).query(`SELECT * FROM t_sources;`);
+
+    return rows
+}
