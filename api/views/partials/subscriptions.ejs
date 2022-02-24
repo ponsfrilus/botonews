@@ -26,7 +26,7 @@
                       When it comes out
                     <%}%> 
                   </td>
-                  <td><a class="btn btn-sm btn-primary" href="/profile/botonews-settings/<%=subscriptions.subscriptions[i].subscription%>">Edit</a></td>
+                  <td><a class="btn btn-sm btn-primary" href="/profile/settings/<%=subscriptions.subscriptions[i].subscription%>">Edit</a></td>
                   <td><button type="button" value="<%= subscriptions.subscriptions[i].subscription %>" class="btn btn-sm btn-danger delete-button">Delete</button></td>
                 </tr>
           <% } %>
@@ -36,7 +36,7 @@
   </div>
 <% } %>
   <div class="text-right">
-    <a href="/profile/botonews-settings"><button class="btn btn-success">Add a new subscription</button></a>
+    <a href="/profile/settings"><button class="btn btn-success">Add a new subscription</button></a>
   </div>
 
 <script>
