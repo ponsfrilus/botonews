@@ -15,7 +15,13 @@ const home = async (req: any, res: Response) => {
 
     user = req.session.passport.user.provider
     subscriptions = await getAllSubscriptions(req.session.passport.user.provider.userid)
-    splashPageSubscription = subscriptions.subscriptions.find((e:any) => e.support.title === 'SplashPage')
+
+    if (subscriptions && subscriptions.subscriptions && Array.isArray(subscriptions.subscriptions)) {
+      splashPageSubscription = subscriptions.subscriptions.find((e:any) => e.support.title === 'SplashPage')
+    } else {
+      splashPageSubscription = false
+    }
+
     if (!splashPageSubscription) {
       // Set the default subscription
       splashPageSubscription = {
