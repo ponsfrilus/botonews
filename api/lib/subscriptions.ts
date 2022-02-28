@@ -3,16 +3,16 @@ import { getSubscription, getAllSubscriptions, insertSubscription, insertSubscri
 const subscriptions = async (req: Request, res: Response, next: NextFunction) => {
     switch (req.method) {
         case "GET":
-            var error =
-            '{\
-                "status_code": 400,\
-                "error": "Please specify a user id (you can also specify a subscription id)"\
-            }';
-            // if (!req.body.userId) return res.status(400) && res.send(JSON.parse(error));
+            var error = {
+                status_code: "400",
+                error: "Please specify a user id or a subscription id."
+            }
             if(req.path.includes('/subscriptions/user/')) {
+                if (!req.params.user) return res.status(400) && res.send(error);
                 var fetchedSubscriptions:any = await getAllSubscriptions(req.params.user);
                 res.send(fetchedSubscriptions);
             } else {
+                if(!req.params.id_subscription) return res.status(400) && res.send(error);
                 var subscriptionId = parseInt(req.params.id_subscription);
                 var fetchedSubscription:any = await getSubscription(subscriptionId);
                 res.send(fetchedSubscription);
@@ -21,12 +21,11 @@ const subscriptions = async (req: Request, res: Response, next: NextFunction) =>
         break;
 
         case "POST":
-            var error =
-            '{\
-                "status_code": 400,\
-                "error": "Please specify a user id, source(s) and a support"\
-            }';
-            if (!req.body.userId || !req.body.source || !req.body.support) return res.status(400) && res.send(JSON.parse(error));
+            var error = {
+                status_code: "400",
+                error: "Please specify a user id, source(s) and a support."
+            }
+            if (!req.body.userId || !req.body.source || !req.body.support) return res.status(400) && res.send(error);
             var modalities = req.body.modalities || {};
             var fetchedSubscriptions:any = await getAllSubscriptions(req.body.userId);
             if(!fetchedSubscriptions.length) {
@@ -40,12 +39,11 @@ const subscriptions = async (req: Request, res: Response, next: NextFunction) =>
                 var subscription = fetchedSubscriptions.subscriptions[i]
                 if(subscription.support.is_unique == 1) {
                     if(subscription.support.id.toString() == req.body.support) {
-                        var uniqueSubError =
-                        '{\
-                            "status_code": 409,\
-                            "error": "You already have a subscription with this support created."\
-                        }';
-                        return res.status(409) && res.send(JSON.parse(uniqueSubError));
+                        var uniqueSubError = {
+                            status_code: "409",
+                            error: "You already have a subscription with this support created."
+                        }
+                        return res.status(409) && res.send(uniqueSubError);
                     }
                 }
             }
@@ -57,24 +55,22 @@ const subscriptions = async (req: Request, res: Response, next: NextFunction) =>
         break;
 
         case "DELETE":
-            var error =
-            '{\
-                "status_code": 400,\
-                "error": "Please specify a subscription id."\
-            }';
-            if(!req.params.id_subscription) return res.status(400) && res.send(JSON.parse(error))
+            var error = {
+                status_code: "400",
+                error: "Please specify a subscription id."
+            }
+            if(!req.params.id_subscription) return res.status(400) && res.send(error)
             var subscriptionId:number = parseInt(req.params.id_subscription);
             var deletedSubscription:any = await deleteSubscription(subscriptionId)
             res.send(deletedSubscription);
         break;
 
         case "PUT":
-            var error =
-            '{\
-                "status_code": 400,\
-                "error": "Please specify a user id, subscription id, source(s) and a support"\
-            }';
-            if (!req.body.userId || !req.params.id_subscription || !req.body.source || !req.body.support) return res.status(400) && res.send(JSON.parse(error));
+            var error = {
+                status_code: "400",
+                error: "Please specify a user id, subscription id, source(s) and a support."
+            }
+            if (!req.body.userId || !req.params.id_subscription || !req.body.source || !req.body.support) return res.status(400) && res.send(error);
             var modalities = req.body.modalities || {};
             var subscriptionId:number = parseInt(req.params.id_subscription);
             var fetchedUpdateSubscription:any = await updateSubscription(subscriptionId, req.body.userId, req.body.support, modalities, req.body.source)
