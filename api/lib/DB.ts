@@ -213,6 +213,12 @@ export const getAllSupports = async () => {
     return rows
 }
 
+export const getSupportByTitle = async (title:string) => {
+    const [rows, fields] = await (await dbconnect).query(`SELECT * FROM t_supports WHERE title = ?;`, [title]);
+
+    return rows
+}
+
 export const getAllSources = async () => {
     const [rows, fields] = await (await dbconnect).query(`SELECT * FROM t_sources;`);
 

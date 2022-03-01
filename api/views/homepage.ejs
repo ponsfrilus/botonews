@@ -11,21 +11,6 @@
 
                     <form action="" name="form-settings">
 
-                            <div class="modes d-inline">
-                                <div class="form-check form-check-inline text-light">
-                                    <input class="form-check-input" type="radio" name="modes" id="auto-mode" value="Auto" <%- splashPageSubscription?.modalities?.hasOwnProperty('time') ? '' : 'checked=checked' %>>
-                                    <label class="form-check-label" for="auto-mode">
-                                        Auto
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline text-light">
-                                    <input class="form-check-input" type="radio" name="modes" id="advanced-mode" value="Advanced" <%- splashPageSubscription?.modalities?.hasOwnProperty('time') ? 'checked=checked' : '' %>>
-                                    <label class="form-check-label" for="advanced-mode">
-                                        Advanced
-                                    </label>
-                                </div>
-                            </div>
-
                             <div class="sources d-inline">
                                 <% for(var i=0; i < sources.length; i++) { %>
                                     <div class="form-check form-check-inline text-light">
@@ -37,6 +22,23 @@
                                             </a>
                                     </div>
                                 <% } %>
+                            </div>
+
+                            |&nbsp;
+
+                            <div class="modes d-inline">
+                                <div class="form-check form-check-inline text-light">
+                                    <input class="form-check-input" type="checkbox" name="random" id="random-mode" value="random" <%- splashPageSubscription?.modalities?.random ? 'checked=checked' : '' %>>
+                                    <label class="form-check-label" for="random-mode">
+                                        Randomize
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline text-light">
+                                    <input class="form-check-input" type="number" min="1" max="12" size="3" name="number" id="number-mode" value="<%= splashPageSubscription?.modalities?.number %>">
+                                    <label class="form-check-label" for="number-mode">
+                                        Quantity
+                                    </label>
+                                </div>
                             </div>
 
                             <button type="button" id="submit" name="submit" class="btn btn-primary update-button">Save</button>
@@ -97,19 +99,6 @@
     <script>
         $("a.my-tool-tip").tooltip();
 
-        // Showing or not showing Advanced mode
-        $('input[type=radio][name=modes]').change(function() {
-            if (this.value == 'Auto') {
-                $('.days').css('display', 'none')
-                $('.time').css('display', 'none')
-            }
-            else if (this.value == 'Advanced') {
-                $(".days").removeAttr("style");
-                $(".time").removeAttr("style");
-                $(".days").css('display', 'inline')
-            }
-        });
-
         $(".update-button").click(function () {
             let sources = [];
 
@@ -118,23 +107,27 @@
                 sources.push($(this).attr('value'));
             });
 
-            if("<%= splashPageSubscription.subscription %>" !== "FAKE") { // User does have a splashpage subscription already
-                axios.put('http://127.0.0.1:8081/subscriptions/<%= splashPageSubscription.subscription %>', {
+            let modalities = {
+                random: $('#random-mode').prop('checked'),
+                number: $('#number-mode').val()
+            }
+
+            let data = {
                         userId: "<%= user.userid %>",
-                        source: sources,
-                        support: "4"
-                    })
+                        sources,
+                        support: "<%= splashPageSupport[0].support %>",
+                        modalities: modalities
+                    }
+
+            if("<%= splashPageSubscription.subscription %>") { // User does have a splashpage subscription already
+                axios.put('http://127.0.0.1:8081/subscriptions/<%= splashPageSubscription.subscription %>', data)
                     .then(function (response) {
                         if (response.status == 201) {
                             location.reload();
                         }
                     })
             } else { // User does not have a splashpage subscription already
-                axios.post('http://127.0.0.1:8081/subscriptions', {
-                        userId: "<%= user.userid %>",
-                        source: sources,
-                        support: "4"
-                    })
+                axios.post('http://127.0.0.1:8081/subscriptions', data)
                     .then(function (response) {
                         if (response.status == 201) {
                             location.reload();
