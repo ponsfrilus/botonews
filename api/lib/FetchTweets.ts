@@ -28,6 +28,7 @@ export const fetchTweets = async (options = {}) => {
 
   for (let tweet of respdata) {
     let article: BotonewsItem = {
+      card_type: 'image',
       src_channel: 'Twitter',
       title: `Tweet by ${tweet.user.screen_name}`,
       item_url: new URL(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`),

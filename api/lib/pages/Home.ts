@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { getAllSources, getAllSubscriptions, getSupportByTitle } from '../DB';
 import { fetchActu } from '../FetchActu';
 import { fetchGoEpfl } from '../FetchGoEpfl';
+import { fetchMotivQuote } from '../FetchMotivQuote';
 
 const home = async (req: any, res: Response) => {
 
@@ -50,6 +51,10 @@ const home = async (req: any, res: Response) => {
       case "Actu":
         let actu: BotonewsItem[] = await fetchActu({number: quantity});
         news = news.concat(actu);
+      break;
+      case "Motivational Quotes":
+        let quotes: MotivQuoteItem[] = await fetchMotivQuote({number: quantity});
+        news = news.concat(quotes);
       break;
     }
   }
