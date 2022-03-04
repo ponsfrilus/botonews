@@ -2,7 +2,10 @@ import { Request, Response } from 'express';
 import { getAllSources, getAllSubscriptions, getSupportByTitle } from '../DB';
 import { fetchActu } from '../FetchActu';
 import { fetchGoEpfl } from '../FetchGoEpfl';
+import { fetchHackernews } from '../FetchHackernews';
 import { fetchMotivQuote } from '../FetchMotivQuote';
+import { fetchNYtimes } from '../FetchNYtimes';
+import { fetchWSJ } from '../FetchWSJ';
 
 const home = async (req: any, res: Response) => {
 
@@ -55,6 +58,18 @@ const home = async (req: any, res: Response) => {
       case "Motivational Quotes":
         let quotes: MotivQuoteItem[] = await fetchMotivQuote({number: quantity});
         news = news.concat(quotes);
+      break;
+      case "WallStreetJournal":
+        let wallstreetjournal: BotonewsItem[] = await fetchWSJ({number: quantity});
+        news = news.concat(wallstreetjournal);
+      break;
+      case "HackerNews":
+        let hackernews: BotonewsItem[] = await fetchHackernews({number: quantity});
+        news = news.concat(hackernews);
+      break;
+      case "NewYork Times":
+        let nytimes: BotonewsItem[] = await fetchNYtimes({number: quantity});
+        news = news.concat(nytimes);
       break;
     }
   }
