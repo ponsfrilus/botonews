@@ -71,7 +71,8 @@ INSERT INTO `t_sources` (`source`, `title`, `description`, `picture`) VALUES
 (3, 'HackerNews', 'Latest news from news.ycombinator.com', ''),
 (4, 'NewYork Times', 'Latest articles from https://www.nytimes.com/', ''),
 (5, 'Motivational Quotes', 'Some motival quotes from https://zenquotes.io/', ''),
-(6, 'Unsplash Image', 'Some random image from unsplash.com', '');
+(6, 'Unsplash Image', 'Some random image from unsplash.com', ''),
+(7, 'WallStreetJournal', 'Latest news from https://www.wsj.com/', '');
 
 -- --------------------------------------------------------
 
