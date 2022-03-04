@@ -16,6 +16,7 @@ export const fetchGoEpfl = async (options = {}) => {
 
   for (let i = 0; i != opt.number; i++) {
     let article: BotonewsItem = {
+      card_type: 'image',
       src_channel: 'Go EPFL',
       title: `Go/${godata[i].alias}`,
       subtitle: `<a href="https://go.epfl.ch/${godata[i].alias}">https://go.epfl.ch/${godata[i].alias}</a> is a shortlink for <a href="https://go.epfl.ch/${godata[i].alias}">${godata[i].url}</a> that has already been clicked ${godata[i].clicks} times!`,

@@ -1,4 +1,5 @@
 type BotonewsItem = {
+  card_type: string;
   src_channel: string;
   title: string;
   subtitle?: string;

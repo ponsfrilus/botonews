@@ -24,8 +24,8 @@ export class ApiRoutes {
     this.server.post('/user/edit', user_edit);
     this.server.delete('/user', user);
     this.server.get('/profile/personal-details', isLoggedIn, profile);
-    this.server.get('/profile/botonews-settings', isLoggedIn, profile);
-    this.server.get('/profile/botonews-settings/:id_subscription', isLoggedIn, profile);
+    this.server.get('/profile/settings', isLoggedIn, profile);
+    this.server.get('/profile/settings/:id_subscription', isLoggedIn, profile);
     this.server.get('/profile/linked-accounts', isLoggedIn, profile);
     this.server.get('/profile/subscriptions', isLoggedIn, profile);
     this.server.get('/profile', isLoggedIn, profile);

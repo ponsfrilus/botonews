@@ -1,0 +1,17 @@
+<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 botonewsarticle mb-4">
+    <div class="card text-white bg-dark">
+        <a href="<%- news.item_url %>" target="_blank">
+            <img src="<%= news.image_url %>"
+                class="card-img-top" width="100%" alt="<%= news.image_alt %>"/>
+        </a>
+        <div class="card-body">
+            <h5 class="caMotivQuoteItemrd-title"><%= news.title %></h5>
+            <p class="card-text">
+                <%- news.subtitle %>
+            </p>
+            <p class="card-text text-right">
+                <small class="text-muted"><%= new Date(news.created_at).toLocaleString() %></small>
+            </p>
+        </div>
+    </div>
+</div>

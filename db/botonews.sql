@@ -71,7 +71,8 @@ INSERT INTO `t_sources` (`source`, `title`, `description`, `picture`) VALUES
 (3, 'HackerNews', 'Latest news from news.ycombinator.com', ''),
 (4, 'NewYork Times', 'Latest articles from https://www.nytimes.com/', ''),
 (5, 'Motivational Quotes', 'Some motival quotes from https://zenquotes.io/', ''),
-(6, 'Unsplash Image', 'Some random image from unsplash.com', '');
+(6, 'Unsplash Image', 'Some random image from unsplash.com', ''),
+(7, 'WallStreetJournal', 'Latest news from https://www.wsj.com/', '');
 
 -- --------------------------------------------------------
 
@@ -108,18 +109,19 @@ CREATE TABLE `t_supports` (
   `title` varchar(100) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `picture` varchar(255) DEFAULT NULL,
-  `is_unique` tinyint(1) DEFAULT 0
+  `is_unique` tinyint(1) DEFAULT 0,
+  `modalities` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `t_supports`
 --
 
-INSERT INTO `t_supports` (`support`, `title`, `description`, `picture`, `is_unique`) VALUES
-(1, 'Telegram', 'Receive news on Telegram', '', 0),
-(2, 'Discord', 'Receive news on Discord', '', 0),
-(3, 'Mail', 'Receive news by email', '', 0),
-(4, 'SplashPage', 'News on the botonews splash page', '', 1);
+INSERT INTO `t_supports` (`support`, `title`, `description`, `picture`, `is_unique`, `modalities`) VALUES
+(1, 'Telegram', 'Receive news on Telegram', '', 0, 'days,time,recipient'),
+(2, 'Discord', 'Receive news on Discord', '', 0, 'days,time,recipient'),
+(3, 'Mail', 'Receive news by email', '', 0, 'days,time,recipient'),
+(4, 'SplashPage', 'News on the botonews splash page', '', 1, 'number,random');
 
 -- --------------------------------------------------------
 

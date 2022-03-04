@@ -11,32 +11,32 @@
 
                     <form action="" name="form-settings">
 
-                            <div class="modes d-inline">
-                                <div class="form-check form-check-inline text-light">
-                                    <input class="form-check-input" type="radio" name="modes" id="auto-mode" value="Auto" <%- splashPageSubscription?.modalities?.hasOwnProperty('time') ? '' : 'checked=checked' %>>
-                                    <label class="form-check-label" for="auto-mode">
-                                        Auto
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline text-light">
-                                    <input class="form-check-input" type="radio" name="modes" id="advanced-mode" value="Advanced" <%- splashPageSubscription?.modalities?.hasOwnProperty('time') ? 'checked=checked' : '' %>>
-                                    <label class="form-check-label" for="advanced-mode">
-                                        Advanced
-                                    </label>
-                                </div>
+                            <div class="sources d-inline">
+                                <% for(var i=0; i < sources.length; i++) { %>
+                                    <div class="form-check form-check-inline text-light">
+                                        <input class="form-check-input sources" type="checkbox" value="<%= sources[i].source %>" name="<%= sources[i].title %>" id="<%= sources[i].title %>" <%- splashPageSubscription?.sources?.filter(el => el.title === sources[i].title).length ? 'checked=checked' : ''%>>
+                                            <a class='my-tool-tip' data-toggle="tooltip" data-placement="bottom" title="<%= sources[i].description %>">
+                                                <label class="form-check-label" for="<%= sources[i].title %>">
+                                                    <%= sources[i].title %>
+                                                </label>
+                                            </a>
+                                    </div>
+                                <% } %>
                             </div>
 
-                            <div class="sources d-inline">
+                            |&nbsp;
+
+                            <div class="modes d-inline">
                                 <div class="form-check form-check-inline text-light">
-                                    <input class="form-check-input sources" type="checkbox" value="1" name="go" id="go_epfl" <%- splashPageSubscription?.sources?.filter(el => el.title === "Go").length ? 'checked=checked' : ''%>>
-                                    <label class="form-check-label" for="go_epfl">
-                                        GoEPFL
+                                    <input class="form-check-input" type="checkbox" name="random" id="random-mode" value="random" <%- splashPageSubscription?.modalities?.random ? 'checked=checked' : '' %>>
+                                    <label class="form-check-label" for="random-mode">
+                                        Randomize
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline text-light">
-                                    <input class="form-check-input sources" type="checkbox" value="2" name="actu" id="ActuEPFL" <%- splashPageSubscription?.sources?.filter(el => el.title === "Actu").length ? 'checked=checked' : ''%>>
-                                    <label class="form-check-label" for="ActuEPFL">
-                                        Actu EPFL
+                                    <input class="form-check-input" type="number" min="1" max="12" size="3" name="number" id="number-mode" value="<%= splashPageSubscription?.modalities?.number %>">
+                                    <label class="form-check-label" for="number-mode">
+                                        Quantity
                                     </label>
                                 </div>
                             </div>
@@ -59,8 +59,8 @@
                                 $("#profile-picture").attr("src", `https://www.gravatar.com/avatar/${CryptoJS.MD5("<%= user.email %>")}?d=identicon`)
                             </script>
                         </a>
-                        <div class="dropdown-menu" style="left: -90px; top: 50px;" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="/profile/botonews-settings">Edit subscriptions</a>
+                        <div class="dropdown-menu" style="left: -120px; top: 50px;" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="/profile/subscriptions">Manage subscriptions</a>
                             <a class="dropdown-item" href="/profile/personal-details">Edit Profile</a>
                             <a class="dropdown-item" href="/logout">Log Out</a>
                         </div>
@@ -76,39 +76,16 @@
     <main class="p-5">
         <div class="row" id="cards-container">
             <% for(var i=0; i < news.length; i++) { %>
-                <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 botonewsarticle mb-4">
-                    <div class="card text-white bg-dark">
-                        <a href="<%- news[i].item_url %>" target="_blank">
-                            <img src="<%= news[i].image_url %>"
-                                class="card-img-top" width="100%" alt="<%= news[i].image_alt %>"/>
-                        </a>
-                        <div class="card-body">
-                            <h5 class="caMotivQuoteItemrd-title"><%= news[i].title %></h5>
-                            <p class="card-text">
-                                <%- news[i].subtitle %>
-                            </p>
-                            <p class="card-text text-right">
-                                <small class="text-muted"><%= new Date(news[i].created_at).toLocaleString() %></small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <% if(news[i].card_type == 'image'){ %>
+                    <%- include('partials/image_card', {news: news[i] }); -%>
+                <% } else if(news[i].card_type == 'quote') { %>
+                    <%- include('partials/quote_card', {news: news[i] }); -%>
+                <% } %>
             <% } %>
         </div>
     </main>
     <script>
-        // Showing or not showing Advanced mode
-        $('input[type=radio][name=modes]').change(function() {
-            if (this.value == 'Auto') {
-                $('.days').css('display', 'none')
-                $('.time').css('display', 'none')
-            }
-            else if (this.value == 'Advanced') {
-                $(".days").removeAttr("style");
-                $(".time").removeAttr("style");
-                $(".days").css('display', 'inline')
-            }
-        });
+        $("a.my-tool-tip").tooltip();
 
         $(".update-button").click(function () {
             let sources = [];
@@ -118,23 +95,27 @@
                 sources.push($(this).attr('value'));
             });
 
-            if("<%= splashPageSubscription.subscription %>" !== "FAKE") { // User does have a splashpage subscription already
-                axios.put('http://127.0.0.1:8081/subscriptions/<%= splashPageSubscription.subscription %>', {
+            let modalities = {
+                random: $('#random-mode').prop('checked'),
+                number: $('#number-mode').val()
+            }
+
+            let data = {
                         userId: "<%= user.userid %>",
-                        source: sources,
-                        support: "4"
-                    })
+                        sources,
+                        support: "<%= splashPageSupport[0].support %>",
+                        modalities: modalities
+                    }
+
+            if("<%= splashPageSubscription.subscription %>") { // User does have a splashpage subscription already
+                axios.put('http://127.0.0.1:8081/subscriptions/<%= splashPageSubscription.subscription %>', data)
                     .then(function (response) {
                         if (response.status == 201) {
                             location.reload();
                         }
                     })
             } else { // User does not have a splashpage subscription already
-                axios.post('http://127.0.0.1:8081/subscriptions', {
-                        userId: "<%= user.userid %>",
-                        source: sources,
-                        support: "4"
-                    })
+                axios.post('http://127.0.0.1:8081/subscriptions', data)
                     .then(function (response) {
                         if (response.status == 201) {
                             location.reload();
