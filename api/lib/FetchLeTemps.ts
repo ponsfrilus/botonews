@@ -37,6 +37,7 @@ export const fetchLeTemps = async (options = {}) => {
 
   for (let i = 0; i != opt.number; i++) {
     let article: BotonewsItem = {
+      card_type: 'image',
       src_channel: 'LeTemps',
       title: feed.items[i].title,
       subtitle: feed.items[i].content,

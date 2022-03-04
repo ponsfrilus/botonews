@@ -16,6 +16,7 @@ export const fetchActu = async (options = {}) => {
 
   for (let i = 0; i != opt.number; i++) {
     let article: BotonewsItem = {
+      card_type: 'image',
       src_channel: 'Actu EPFL',
       title: respdata.results[i].title,
       subtitle: respdata.results[i].subtitle,

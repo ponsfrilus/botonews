@@ -18,6 +18,7 @@ export const fetchMotivQuote = async (options = {}) => {
 
   for (let quote of respdata) {
     let article: MotivQuoteItem = {
+      card_type: 'quote',
       src_channel: 'Quote',
       quote: quote.q,
       author: quote.a,
